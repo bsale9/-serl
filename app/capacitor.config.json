@@ -1,0 +1,7 @@
+{
+  "appId": "at.aktionen.app",
+  "appName": "Aktionen",
+  "webDir": "www",
+  "ios": { "contentInset": "never", "backgroundColor": "#d9481a" },
+  "plugins": { "PushNotifications": { "presentationOptions": ["badge", "sound", "alert"] } }
+}

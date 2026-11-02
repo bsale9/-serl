@@ -112,6 +112,18 @@ section h2 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0
 .li-h .x:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); color: var(--fg); }
 .li .item { padding: .55rem 0 .2rem; border-top: 0; }
 .li .more-in { font-size: .8rem; color: var(--muted); background: transparent; border: 0; padding: .3rem 0 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.notify { display: flex; align-items: center; gap: .7rem; padding: .7rem .9rem; margin: 0 0 .7rem; border-radius: 14px; background: color-mix(in srgb, var(--brand) 9%, var(--card)); border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--line)); font-size: .88rem; }
+.notify .bell svg, .fstar svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.notify .bell { color: var(--brand); display: grid; }
+.notify .nt { flex: 1 1 auto; }
+.notify button { flex: none; font-weight: 800; padding: .5rem .95rem; border-radius: 999px; border: 0; background: var(--brand); color: #fff; cursor: pointer; }
+.notify.is-on { background: color-mix(in srgb, var(--go) 9%, var(--card)); border-color: color-mix(in srgb, var(--go) 30%, var(--line)); }
+.notify.is-on .bell { color: var(--go); }
+.fstar { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; padding: 0; }
+.fstar[aria-pressed="true"] { color: #e8a200; }
+.fstar[aria-pressed="true"] svg { fill: currentColor; }
+.li-h .fstar.on-left { margin-left: -.35rem; }
+.li-h .fstar:not(.on-left) ~ .x { margin-left: 0; }
 .li-empty { padding: 1.2rem .3rem; color: var(--muted); text-align: center; }
 .listfoot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: .6rem; font-size: .85rem; color: var(--muted); }
 .listfoot button { font-size: .85rem; background: transparent; border: 0; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
@@ -284,6 +296,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   <button class="nav" data-go="top" aria-current="true" title="Start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg><span class="lbl">Start</span></button>
   <button class="nav" data-go="mehr" title="Mehr kaufen, mehr sparen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1.5S10 9 12 9c2 0 6 1 6-1.5S14 5 12 9"/></svg><span class="lbl">Mengenaktionen</span></button>
   <button class="nav" data-go="alle" title="Alle Angebote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span class="lbl">Alle Angebote</span></button>
+  <button class="nav" data-go="fav" title="Lieblingsartikel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg><span class="lbl">Lieblingsartikel</span></button>
   <button class="nav" data-go="warten" title="Meine Einkaufsliste"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l2 10h10l2-7H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="16.5" cy="19" r="1.3"/></svg><span class="lbl">Meine Einkaufsliste</span></button>
   <div class="nav-h">Märkte</div>
   <button class="nav" data-markt="Billa" data-m="Billa" title="Billa"><span class="dot"></span><span class="lbl">Billa</span><span class="cnt" data-cnt="Billa"></span></button>
@@ -326,6 +339,17 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     <div class="list" id="l2"></div>
     <button class="more" id="m2" hidden></button>
     <p class="count" id="cnt"></p>
+  </section>
+
+  <section id="fav">
+    <h2>Meine Lieblingsartikel</h2>
+    <p class="sub">Trag ein, was du regelmässig kaufst. Sobald einer davon in einem Markt in Aktion ist, siehst du es hier, und die App schickt dir eine Benachrichtigung.</p>
+    <div class="notify" id="notify"><span class="bell"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="nt" id="notifyTxt"></span><button type="button" id="notifyBtn" hidden>Aktivieren</button></div>
+    <form class="add" id="favForm" autocomplete="off">
+      <input id="favIn" type="text" placeholder="z. B. Skyr, Red Bull, Nespresso" aria-label="Lieblingsartikel hinzufügen" enterkeyhint="done">
+      <button type="submit">Merken</button>
+    </form>
+    <div class="list" id="favL"></div>
   </section>
 
   <section id="warten">
@@ -582,6 +606,70 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   };
   const radio = (on, label, fn) => { const b = el('button', 'rb'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', String(on)); b.setAttribute('aria-label', label); b.addEventListener('click', fn); return b; };
 
+  // ---- Lieblingsartikel + Benachrichtigungen ----
+  const PUSH_API = '';   // wird gesetzt, sobald der Benachrichtigungs-Server läuft
+  const CAP = window.Capacitor;
+  const NATIVE = !!(CAP && CAP.isNativePlatform && CAP.isNativePlatform());
+  const PN = NATIVE && CAP.Plugins ? CAP.Plugins.PushNotifications : null;
+  let FAVS = (lsGet('favs', []) || []).filter((x) => typeof x === 'string');
+  let PUSH = lsGet('push', 'aus');           // 'aus' | 'an' | 'abgelehnt'
+  const isFav = (t) => FAVS.some((f) => norm(f) === norm(t));
+  const saveFavs = () => { lsSet('favs', FAVS); syncPush(); };
+  const toggleFav = (t) => { if (isFav(t)) FAVS = FAVS.filter((f) => norm(f) !== norm(t)); else FAVS.push(t); FAVS = FAVS.slice(0, 50); saveFavs(); drawFav(); warten(); };
+  const starBtn = (t) => { const b = el('button', 'fstar'); b.type = 'button'; b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>'; const on = isFav(t); b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-label', on ? t + ' nicht mehr merken' : t + ' als Lieblingsartikel merken'); b.addEventListener('click', () => toggleFav(t)); return b; };
+  function syncPush() {
+    const token = lsGet('pushToken', null);
+    if (!PUSH_API || !token) return;
+    fetch(PUSH_API + '/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, platform: 'ios', favs: FAVS }) }).catch(() => {});
+  }
+  async function enablePush() {
+    if (!PN) return;
+    try {
+      let p = await PN.checkPermissions();
+      if (p.receive !== 'granted' && p.receive !== 'denied') p = await PN.requestPermissions();
+      if (p.receive !== 'granted') { PUSH = 'abgelehnt'; lsSet('push', PUSH); drawNotify(); return; }
+      await PN.register();
+    } catch (e) { drawNotify('Benachrichtigungen konnten nicht eingeschaltet werden.'); }
+  }
+  if (PN) {
+    PN.addListener('registration', (t) => { lsSet('pushToken', t.value); PUSH = 'an'; lsSet('push', PUSH); syncPush(); drawNotify(); });
+    PN.addListener('registrationError', () => drawNotify('Benachrichtigungen konnten nicht eingeschaltet werden.'));
+    PN.addListener('pushNotificationActionPerformed', () => go('fav'));
+    if (PUSH === 'an') PN.checkPermissions().then((p) => { if (p.receive === 'granted') PN.register(); else { PUSH = 'aus'; lsSet('push', PUSH); drawNotify(); } }).catch(() => {});
+  }
+  function drawNotify(msg) {
+    const box = $('notify'), b = $('notifyBtn');
+    box.classList.toggle('is-on', NATIVE && PUSH === 'an');
+    b.hidden = !(NATIVE && PUSH !== 'an');
+    b.onclick = enablePush;
+    $('notifyTxt').textContent = msg || (!NATIVE ? 'Benachrichtigungen gibt es in der iPhone-App. Hier im Browser siehst du deine Treffer unten.'
+      : PUSH === 'an' ? 'Benachrichtigungen sind an. Du bekommst eine Nachricht, sobald ein Lieblingsartikel in Aktion ist.'
+      : PUSH === 'abgelehnt' ? 'Benachrichtigungen sind ausgeschaltet. Du kannst sie in den iPhone-Einstellungen unter «Aktionen» erlauben.'
+      : 'Lass dich benachrichtigen, sobald ein Lieblingsartikel in Aktion ist.');
+    if (NATIVE && PUSH === 'abgelehnt') { b.hidden = false; b.textContent = 'Nochmals'; } else b.textContent = 'Aktivieren';
+  }
+  function drawFav() {
+    drawNotify();
+    const box = $('favL');
+    const valid = ALL.filter((r) => !r.bis || r.bis >= today);
+    if (!FAVS.length) { box.replaceChildren(el('div', 'li-empty', 'Noch keine Lieblingsartikel. Tippe oben etwas ein oder tippe in deiner Einkaufsliste auf den Stern.')); return; }
+    const rows = FAVS.map((f) => ({ f, hits: finde(f, valid) })).sort((a, b) => (b.hits.length > 0) - (a.hits.length > 0));
+    box.replaceChildren(...rows.map(({ f, hits }) => {
+      const d = el('div', 'li');
+      const h = el('div', 'li-h');
+      const s = starBtn(f); s.classList.add('on-left');
+      const mk = [...new Set(hits.map((a) => a.markt))];
+      h.append(s, el('span', 't', f), el('span', 'st' + (hits.length ? ' go' : ''), hits.length ? `In Aktion · ${mk.join(', ')}` : 'Gerade keine Aktion'));
+      const x = el('button', 'x', '×'); x.type = 'button'; x.setAttribute('aria-label', f + ' entfernen');
+      x.addEventListener('click', () => toggleFav(f));
+      h.append(x); d.append(h);
+      const n = open3.has('fav|' + f) ? hits.length : 2;
+      hits.slice(0, n).forEach((r) => d.append(item(r)));
+      if (hits.length > n) { const m = el('button', 'more-in', `${hits.length - n} weitere anzeigen`); m.type = 'button'; m.addEventListener('click', () => { open3.add('fav|' + f); drawFav(); }); d.append(m); }
+      return d;
+    }));
+  }
+
   function warten() {
     const valid = ALL.filter((r) => !r.bis || r.bis >= today);
     const byKey = new Map(valid.map((r) => [keyOf(r), r]));
@@ -606,6 +694,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
       const st = picked ? el('span', 'st go', 'Ausgewählt · ' + picked.markt)
         : el('span', 'st' + (hits.length ? ' go' : ''), hits.length ? `${hits.length} ${hits.length === 1 ? 'Angebot' : 'Angebote'} · ${mk.join(', ')}` : 'Diese Woche keine Aktion');
       h.append(el('span', 't', L.t), st);
+      const fs = starBtn(L.t); fs.style.marginLeft = 'auto'; h.append(fs);
       if (picked) { const c = el('button', 'chg', 'ändern'); c.type = 'button'; c.addEventListener('click', () => { L.pick = null; save(); warten(); }); h.append(c); }
       const x = el('button', 'x', '×'); x.type = 'button'; x.setAttribute('aria-label', L.t + ' entfernen');
       x.addEventListener('click', () => { LISTE.splice(idx, 1); save(); warten(); });
@@ -753,7 +842,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   const closeMenu = () => { app.classList.remove('is-open'); syncBurger(); };
   $('scrim').addEventListener('click', closeMenu);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (sheetOpen) minSheet(); else closeMenu(); } });
-  const go = (id) => { const t = $(id); if (t) window.scrollTo({ top: id === 'top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); };
+  const go = (id) => { const t = $(id); if (t) window.scrollTo({ top: id === 'top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 70 - (document.querySelector('.bar') ? document.querySelector('.bar').offsetHeight : 0), behavior: 'smooth' }); };
   document.querySelectorAll('.nav[data-go]').forEach((n) => n.addEventListener('click', () => {
     document.querySelectorAll('.nav[data-go]').forEach((x) => x.setAttribute('aria-current', String(x === n)));
     closeMenu(); go(n.dataset.go);
@@ -768,18 +857,30 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   $('kat').addEventListener('change', (e) => { state.kat = e.target.value; state.n2 = SHORT; draw(); });
   $('sort').addEventListener('change', (e) => { state.sort = e.target.value; draw(); });
 
-  fetch('aktionen.json', { cache: 'no-cache' }).then((r) => r.json()).then((d) => {
+  $('favForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const neu = $('favIn').value.split(/[,;\n]/).map((x) => x.trim().replace(/\s+/g, ' ')).filter((x) => x.length >= 2 && x.length <= 40);
+    for (const f of neu) if (!isFav(f)) FAVS.push(f);
+    FAVS = FAVS.slice(0, 50); $('favIn').value = ''; saveFavs(); drawFav(); warten();
+  });
+  drawNotify();
+
+  // In der iPhone-App kommen die Daten immer frisch von der Website, die mitgelieferte Datei ist nur der Notfall.
+  const DATA = NATIVE ? 'https://bsale9.github.io/-serl/aktionen.json' : 'aktionen.json';
+  fetch(DATA, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw 0; return r.json(); })
+    .catch(() => NATIVE ? fetch('aktionen.json').then((r) => r.json()) : Promise.reject())
+    .then((d) => {
     ALL = d.rows || d; STAND = d.stand || '';
     if (STAND) { $('stand').textContent = 'Billa, Spar, Hofer und Lidl · Region Wien · Stand ' + fmtD(STAND); $('stand2').textContent = 'Stand ' + fmtD(STAND); }
     const ks = [...new Set(ALL.map((r) => r.kategorie))].sort((a, b) => a.localeCompare(b, 'de'));
     $('kat').append(...ks.map((k) => new Option(k)));
-    drawTiles(); draw(); warten();
+    drawTiles(); draw(); drawFav(); warten();
   }).catch(() => {
     const e = el('div', 'err', 'Die Angebote konnten nicht geladen werden. Prüfe die Internetverbindung und lade die Seite neu.');
     $('alle').prepend(e);
   });
 
-  if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  if (!NATIVE && 'serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 })();
 </script>
 </body>
