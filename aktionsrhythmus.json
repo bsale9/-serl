@@ -1,0 +1,85 @@
+{
+ "rows": [
+  {
+   "artikel": "Brot",
+   "produkte_billa": 54,
+   "wochen_mit_aktion": 39,
+   "anteil_wochen": 75,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "Ja! Natürlich Dinkelbrot",
+   "haeufigstes_anteil": 44
+  },
+  {
+   "artikel": "Skyr",
+   "produkte_billa": 7,
+   "wochen_mit_aktion": 22,
+   "anteil_wochen": 42,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "BILLA Skyr",
+   "haeufigstes_anteil": 23
+  },
+  {
+   "artikel": "Tiefkühlspinat",
+   "produkte_billa": 22,
+   "wochen_mit_aktion": 38,
+   "anteil_wochen": 73,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "Iglo Blattspinat Zwutschgerl",
+   "haeufigstes_anteil": 46
+  },
+  {
+   "artikel": "Zucchini",
+   "produkte_billa": 5,
+   "wochen_mit_aktion": 16,
+   "anteil_wochen": 31,
+   "rabatt_median": 13,
+   "haeufigstes_produkt": "Clever Zucchini",
+   "haeufigstes_anteil": 25
+  },
+  {
+   "artikel": "Paprika",
+   "produkte_billa": 32,
+   "wochen_mit_aktion": 52,
+   "anteil_wochen": 100,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "Ja! Natürlich Spitzpaprika rot",
+   "haeufigstes_anteil": 56
+  },
+  {
+   "artikel": "Lachsfilet",
+   "produkte_billa": 14,
+   "wochen_mit_aktion": 33,
+   "anteil_wochen": 63,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "Clever Lachsfilet mit Haut",
+   "haeufigstes_anteil": 35
+  },
+  {
+   "artikel": "Taschentücher",
+   "produkte_billa": 13,
+   "wochen_mit_aktion": 6,
+   "anteil_wochen": 12,
+   "rabatt_median": 20,
+   "haeufigstes_produkt": "bi good Taschentücher",
+   "haeufigstes_anteil": 12
+  },
+  {
+   "artikel": "Vegane Hühnerstreifen",
+   "produkte_billa": 13,
+   "wochen_mit_aktion": 31,
+   "anteil_wochen": 60,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "The Green Mountain Chicken Chunks plant based",
+   "haeufigstes_anteil": 29
+  },
+  {
+   "artikel": "Schokolade 80 %",
+   "produkte_billa": 6,
+   "wochen_mit_aktion": 40,
+   "anteil_wochen": 77,
+   "rabatt_median": 25,
+   "haeufigstes_produkt": "Ja! Natürlich 85% Edelbitter Schokolade",
+   "haeufigstes_anteil": 50
+  }
+ ]
+}

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aktionen der Woche</title>
+<meta name="description" content="Supermarkt-Aktionen von Billa, Spar, Hofer und Lidl auf einen Blick.">
+<meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16171a" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Aktionen">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face { font-family: 'DM Sans'; font-weight: 400; font-display: swap; src: url(fonts/dm-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; font-display: swap; src: url(fonts/dm-sans-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url(fonts/dm-sans-latin-700-normal.woff2) format('woff2'); }
+:root {
+  --bg: #faf9f7; --card: #ffffff; --fg: #22252a; --muted: #6b6f76; --line: #ebe8e2;
+  --price: #c2410c; --go: #00843d;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #16171a; --card: #1f2125; --fg: #ececee; --muted: #9a9ea6; --line: #2e3036; --price: #ff7a45; --go: #3fbf75; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 980px; margin-inline: auto; padding: calc(1.25rem + env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) calc(2.5rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+[data-m="Billa"] { --c: #ffd200; --ring: #d9b400; --on: #1d1d1b; }
+[data-m="Spar"] { --c: #00843d; --ring: #00843d; --on: #fff; }
+[data-m="Hofer"] { --c: #f08c00; --ring: #f08c00; --on: #fff; }
+[data-m="Lidl"] { --c: #0050aa; --ring: #2b74d6; --on: #fff; }
+[data-m="Alle"] { --c: #8b8f98; --ring: var(--fg); --on: var(--bg); }
+
+header h1 { margin: 0; font-size: clamp(1.6rem, 6vw, 2.2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+header p { margin: .3rem 0 0; color: var(--muted); font-size: .9rem; }
+
+.tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .7rem; }
+.tile { position: relative; text-align: left; cursor: pointer; border: 0; border-radius: 20px; padding: .9rem 1rem 1rem; display: grid; gap: .1rem; background: color-mix(in srgb, var(--c) 13%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 24%, transparent); transition: transform .15s ease, box-shadow .15s ease; -webkit-tap-highlight-color: transparent; }
+.tile:hover { transform: translateY(-2px); }
+.tile .hd { display: flex; align-items: center; gap: .5rem; font-weight: 700; font-size: .92rem; white-space: nowrap; }
+.tile .badge { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--c); color: var(--on); font-weight: 700; font-size: .8rem; flex: none; }
+.tile .n { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-top: .5rem; font-variant-numeric: tabular-nums; }
+.tile .l { font-size: .78rem; color: var(--muted); }
+.tile .mini { margin-top: .45rem; font-size: .76rem; color: var(--muted); display: none; gap: .25rem .6rem; flex-wrap: wrap; }
+.tile .mini b { color: var(--fg); }
+.tile[aria-pressed="true"] { box-shadow: inset 0 0 0 2.5px var(--ring); }
+.tile[aria-pressed="true"] .hd { padding-right: 1.6rem; }
+.tile .hd span + * { overflow: hidden; text-overflow: ellipsis; }
+.tile[aria-pressed="true"] .mini { display: flex; animation: fade .2s ease-out; }
+.tile[aria-pressed="true"]::after { content: '✓'; position: absolute; top: .75rem; right: .8rem; width: 21px; height: 21px; border-radius: 50%; display: grid; place-items: center; background: var(--ring); color: var(--on); font-size: .72rem; font-weight: 700; }
+@keyframes fade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+
+.bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: .7rem 0; margin-top: -.6rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; border-bottom: 1px solid var(--line); }
+.chip { cursor: pointer; font-size: .88rem; padding: .42rem .85rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); white-space: nowrap; }
+.chip b { color: var(--price); margin-right: .15rem; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip[aria-pressed="true"] b { color: inherit; }
+.bar select, .bar input { font-size: .9rem; padding: .45rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+.bar input { flex: 1 1 10rem; min-width: 8rem; -webkit-appearance: none; appearance: none; }
+:focus-visible { outline: 2px solid var(--price); outline-offset: 2px; }
+
+section h2 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+.sub { margin: .2rem 0 .7rem; color: var(--muted); font-size: .88rem; }
+.list { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: .15rem 1rem; }
+.item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .8rem; align-items: center; padding: .75rem 0; border-top: 1px solid var(--line); text-decoration: none; color: inherit; }
+.item:first-child { border-top: 0; }
+.ico { position: relative; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 24px; line-height: 1; background: color-mix(in srgb, var(--fg) 5%, var(--card)); font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+.ico::after { content: ''; position: absolute; right: -3px; bottom: -3px; width: 13px; height: 13px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px var(--card), 0 0 0 3px color-mix(in srgb, var(--ring) 60%, transparent); }
+.name { font-weight: 500; overflow-wrap: anywhere; }
+.item:hover .name { text-decoration: underline; text-underline-offset: 3px; }
+.meta { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+.meta .mk { font-weight: 500; color: var(--fg); }
+.meta .cond { color: var(--price); font-weight: 500; }
+.pr { text-align: right; white-space: nowrap; }
+.pr .now { font-weight: 700; font-size: 1.05rem; color: var(--price); font-variant-numeric: tabular-nums; }
+.pr .old { display: block; font-size: .78rem; color: var(--muted); text-decoration: line-through; }
+.more { display: block; width: 100%; margin: .2rem 0 .6rem; padding: .7rem; border-radius: 12px; border: 1px dashed var(--line); background: transparent; cursor: pointer; color: var(--muted); font-weight: 500; }
+.more:hover { color: var(--fg); border-color: var(--muted); }
+.empty { padding: 1.5rem .5rem; text-align: center; color: var(--muted); }
+.count { font-size: .85rem; color: var(--muted); margin: .45rem 0 0; }
+
+.tip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .2rem 1rem; padding: .75rem 0; border-top: 1px solid var(--line); align-items: center; }
+.tip:first-child { border-top: 0; }
+.tip .a { font-weight: 500; }
+.tip .e { font-size: .85rem; color: var(--muted); }
+.tip .e.go { color: var(--go); font-weight: 500; }
+.tip .e.wait { color: var(--price); }
+.tip .w { grid-row: span 2; text-align: right; font-size: .8rem; color: var(--muted); white-space: nowrap; }
+.meter { display: inline-block; width: 4rem; height: 6px; background: var(--line); border-radius: 999px; margin-right: .5rem; vertical-align: middle; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--price); border-radius: 999px; }
+
+footer { display: grid; gap: .7rem; }
+.links { display: flex; flex-wrap: wrap; gap: .5rem; }
+.links a { display: inline-flex; align-items: center; gap: .45rem; font-weight: 500; font-size: .88rem; padding: .45rem .9rem .45rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); text-decoration: none; }
+.links a::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+footer p { margin: 0; font-size: .78rem; color: var(--muted); }
+.err { padding: 1rem; border-radius: 14px; background: color-mix(in srgb, var(--price) 10%, var(--card)); color: var(--fg); }
+
+@media (max-width: 720px) {
+  .tiles { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 10.5rem; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -1rem; padding: .2rem 1rem .4rem; scrollbar-width: none; }
+  .tiles::-webkit-scrollbar { display: none; }
+  .tile { scroll-snap-align: start; }
+  .bar .types { order: 3; width: 100%; display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none; }
+  .bar .types::-webkit-scrollbar { display: none; }
+  .bar select { flex: 1 1 40%; min-width: 0; }
+  .bar input { order: -1; flex-basis: 100%; }
+}
+.types { display: contents; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Diese Woche im Angebot</h1>
+    <p id="stand">Billa, Spar, Hofer und Lidl · Region Wien</p>
+  </header>
+
+  <div class="tiles" role="group" aria-label="Markt wählen" id="tiles"></div>
+
+  <nav class="bar" aria-label="Filter">
+    <input id="q" type="search" placeholder="Kaffee, Butter, Iglo …" aria-label="Suche" enterkeyhint="search">
+    <span class="types" id="types"></span>
+    <select id="kat" aria-label="Kategorie"><option value="">Alle Kategorien</option></select>
+    <select id="sort" aria-label="Sortierung">
+      <option value="rabatt">Grösster Rabatt</option>
+      <option value="preis">Günstigster Preis</option>
+      <option value="produkt">A bis Z</option>
+      <option value="bis">Läuft bald ab</option>
+    </select>
+  </nav>
+
+  <section id="mehr">
+    <h2>Mehr kaufen, mehr sparen</h2>
+    <p class="sub">Gratis-Aktionen und Mengenrabatte. Der Preis gilt je Stück, wenn du die angegebene Menge kaufst.</p>
+    <div class="list" id="l1"></div>
+    <button class="more" id="m1" hidden></button>
+  </section>
+
+  <section id="alle">
+    <h2>Alle Angebote</h2>
+    <p class="sub">Tippe auf ein Angebot, um das Flugblatt zu öffnen.</p>
+    <div class="list" id="l2"></div>
+    <button class="more" id="m2" hidden></button>
+    <p class="count" id="cnt"></p>
+  </section>
+
+  <section id="warten">
+    <h2>Kaufen oder warten?</h2>
+    <p class="sub">Deine Einkaufsliste: Wie oft war das bei Billa im letzten Jahr in Aktion?</p>
+    <div class="list" id="l3"></div>
+  </section>
+
+  <footer>
+    <div class="links">
+      <a data-m="Billa" href="https://www.billa.at/unsere-aktionen/flugblatt" target="_blank" rel="noopener">Billa-Flugblatt</a>
+      <a data-m="Spar" href="https://www.spar.at/aktionen" target="_blank" rel="noopener">Spar-Flugblatt</a>
+      <a data-m="Hofer" href="https://www.hofer.at/flugblatt" target="_blank" rel="noopener">Hofer-Flugblatt</a>
+      <a data-m="Lidl" href="https://www.lidl.at/c/flugblatt/s10012330" target="_blank" rel="noopener">Lidl-Flugblatt</a>
+    </div>
+    <p>Privates Projekt, keine Verbindung zu den Händlern. Angaben ohne Gewähr – Bedingungen wie Mindestmenge oder App-Pflicht vor dem Einkauf im Flugblatt prüfen.</p>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const MARKETS = ['Alle', 'Billa', 'Spar', 'Hofer', 'Lidl'];
+  const TYPES = [['Gratis (X+Y)', 'gratis', '1+1 gratis'], ['Mengenrabatt', 'mengen', 'Mengenrabatt'], ['Kundenkarte/App', 'karte', 'mit App']];
+  const MULTI = ['Gratis (X+Y)', 'Mengenrabatt'];
+  const PAGE = 40;
+  const DOW = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+  const iso = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const pd = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const fmtD = (s) => { if (!s) return ''; const d = pd(s); return DOW[d.getDay()] + ' ' + d.getDate() + '.' + (d.getMonth() + 1) + '.'; };
+  const eur = new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR' });
+  const fmtE = (v) => (v == null ? '' : eur.format(v));
+  const today = iso(new Date());
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+  const EMO = [
+    [/(katze|hund|whiskas|felix|sheba|pedigree|cesar|tiernahrung|tierfutter)/i, '🐾'],
+    [/(käseaufschnitt)/i, '🧀'],
+    [/(shampoo|dusch|seife|deo\b|lotion|nivea|labello|rasier|gillette|syoss|pantene|always|slip)/i, '🧴'],
+    [/(gans|ente\b|ente |huhn|hühner|hendl|chicken|pute|truthahn|nuggets|geflügel)/i, '🍗'],
+    [/(wurst|würstel|wiener|polnische|frankfurter|salami|schinken|speck|leberkäse|krainer|aufschnitt|kabanossi)/i, '🥓'],
+    [/(fleisch|schwein|schnitzel|faschiert|rind|steak|kotelett|karree|gulasch|braten|cordon|cevapcici)/i, '🥩'],
+    [/(lachs|fisch|thunfisch|forelle|kabeljau|dorsch|garnele|shrimp|hering|sardine|calamari)/i, '🐟'],
+    [/(\bbier|bier\b|märzen|lager|pils|radler|zwickl|weisse|gösser|stiegl|ottakringer|zipfer|puntigamer|egger|hirter|schwechater|wieselburger|goldbräu)/i, '🍺'],
+    [/(sekt|prosecco|spumante|champagner|schlumberger|hochriegl)/i, '🥂'],
+    [/\b(gin|vodka|wodka|rum|whisk\w*|likör|schnaps|aperol|jägermeister|inländerrum|johnnie walker)\b/i, '🥃'],
+    [/(\bwein|wein\b|veltliner|riesling|zweigelt|blaufränkisch|cuvée|cuvee|chardonnay|merlot|rosé|muskateller|sauvignon|chianti|primitivo|rioja)/i, '🍷'],
+    [/(kaffee|espresso|caffè|cappuccino|nespresso|dolce gusto|tassimo|jacobs|tchibo|eduscho|meinl|lavazza|dallmayr|bohne)/i, '☕'],
+    [/(\btee\b)/i, '🍵'],
+    [/(torte|\bkuchen|strudel)/i, '🍰'],
+    [/(knödel)/i, '🥟'],
+    [/(pizza|pizz'ah)/i, '🍕'],
+    [/(pommes|frites|kroketten|wedges)/i, '🍟'],
+    [/(\beis\b|eiscreme|magnum|cornetto|ben & jerry|häagen|cremissimo)/i, '🍦'],
+    [/(chips|pringles|soletti|salzstangen|snips|knabber|popcorn|cracker)/i, '🥨'],
+    [/(nüsse|haselnuss|walnuss|kastanie)/i, '🌰'],
+    [/(gummi|haribo|bonbon|kaugummi|zuckerl|nimm 2|toffee)/i, '🍬'],
+    [/(keks|kekse|waffel|manner|biskotten|cookies|lebkuchen|pick up)/i, '🍪'],
+    [/(schoko|choc|milka|lindt|ritter sport|praline|nougat|kinder|merci|mozart|mars|snickers|twix|riegel)/i, '🍫'],
+    [/(mineral|wasser|vöslauer|römerquelle|gasteiner|waldquelle)/i, '💧'],
+    [/(saft|nektar|smoothie|happy day|pago|hohes c)/i, '🧃'],
+    [/(cola|pepsi|limo|fanta|sprite|almdudler|energy|red bull|eistee|tonic|kinley|schartner)/i, '🥤'],
+    [/(butter|margarine|thea)/i, '🧈'],
+    [/(käse|gouda|emmentaler|mozzarella|cheddar|bergbaron|camembert|feta|parmesan|philadelphia)/i, '🧀'],
+    [/(milch|haferdrink|oatly|barista|kakao|protein drink|proteindrink)/i, '🥛'],
+    [/(joghurt|skyr|topfen|pudding|dessert|rahm|obers)/i, '🥣'],
+    [/(\beier\b)/i, '🥚'],
+    [/(brot|semmel|weckerl|toast|gebäck|kipferl|croissant|baguette|krapfen|plunder|laib)/i, '🍞'],
+    [/(nudel|spaghetti|pasta|penne|fusilli|tortellini|lasagne|gnocchi)/i, '🍝'],
+    [/(reis\b|risotto|basmati)/i, '🍚'],
+    [/(mehl|zucker|backpulver|germ\b|hefe)/i, '🧁'],
+    [/(müsli|cornflakes|cerealien|haferflocken|granola)/i, '🥣'],
+    [/(suppe|eintopf)/i, '🍲'],
+    [/(sauce|soße|saucen|ketchup|senf|mayonnaise|sugo|pesto|dressing|öl\b|essig|gewürz|knorr|maggi)/i, '🫙'],
+    [/(äpfel|apfel)/i, '🍎'], [/(banane)/i, '🍌'], [/(orange|mandarine|clementine|satsuma|zitrone)/i, '🍊'],
+    [/(trauben)/i, '🍇'], [/(erdbeer|beeren)/i, '🫐'], [/(birne)/i, '🍐'], [/(kiwi)/i, '🥝'], [/(melone)/i, '🍉'],
+    [/(mango)/i, '🥭'], [/(ananas)/i, '🍍'], [/(kaki)/i, '🍑'], [/(avocado)/i, '🥑'], [/(kürbis)/i, '🎃'],
+    [/(tomate|paradeis)/i, '🍅'], [/(paprika)/i, '🫑'], [/(gurke)/i, '🥒'], [/(karotte|möhre)/i, '🥕'],
+    [/(kartoffel|erdäpfel)/i, '🥔'], [/(zwiebel|knoblauch)/i, '🧅'], [/(pilz|champignon)/i, '🍄'], [/(mais\b)/i, '🌽'],
+    [/(salat|spinat|kohl|brokkoli|broccoli|zucchini|kraut|porree|lauch|gemüse)/i, '🥬'],
+    [/(windel|baby)/i, '👶'],
+    [/(zahn|mundspül|blend-a-med|oral-b|colgate|elmex|kukident)/i, '🪥'],
+    [/(toilettenpapier|klopapier|küchenrolle|taschentücher|tempo|zewa)/i, '🧻'],
+    [/(wasch|spül|reiniger|weichspüler|persil|ariel|calgon|somat|w5)/i, '🧽'],
+    [/(kerze|grablicht|öllicht)/i, '🕯️'],
+    [/(frostschutz|scheiben)/i, '🚗'],
+    [/(creme|haar|pflege)/i, '🧴'],
+  ];
+  const KAT = { 'Obst & Gemüse': '🥕', 'Brot & Gebäck': '🍞', 'Getränke': '🥤', 'Bier & Wein': '🍷', 'Kaffee & Tee': '☕', 'Milch & Käse': '🧀', 'Fleisch & Fisch': '🥩', 'Tiefkühl': '❄️', 'Vorrat & Backen': '🫙', 'Süsses & Snacks': '🍫', 'Drogerie & Haushalt': '🧴' };
+  const emoji = (r) => { for (const [re, e] of EMO) if (re.test(r.produkt)) return e; return KAT[r.kategorie] || '🛒'; };
+
+  const state = { markt: 'Alle', typ: '', kat: '', q: '', sort: 'rabatt', n1: 8, n2: PAGE };
+  let ALL = [], STAND = '';
+
+  const pass = (r) => {
+    if (r.bis && r.bis < today) return false;
+    if (state.markt !== 'Alle' && r.markt !== state.markt) return false;
+    if (state.typ && r.typ !== state.typ) return false;
+    if (state.kat && r.kategorie !== state.kat) return false;
+    if (state.q && !(r.produkt + ' ' + r.kategorie + ' ' + (r.bedingung || '') + ' ' + r.markt).toLowerCase().includes(state.q)) return false;
+    return true;
+  };
+  const cmp = (a, b) => {
+    const k = state.sort, dir = k === 'rabatt' ? -1 : 1, va = a[k], vb = b[k];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    return (typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb), 'de')) * dir;
+  };
+
+  function item(r) {
+    const a = el('a', 'item'); a.href = r.quelle; a.target = '_blank'; a.rel = 'noopener'; a.dataset.m = r.markt;
+    const ic = el('span', 'ico', emoji(r)); ic.setAttribute('aria-hidden', 'true');
+    const tx = el('span');
+    tx.append(el('div', 'name', r.produkt));
+    const meta = el('div', 'meta');
+    meta.append(el('span', 'mk', r.markt));
+    const parts = [];
+    if (r.menge) parts.push(r.menge);
+    if (r.von && r.von > today) parts.push('ab ' + fmtD(r.von));
+    if (r.bis) parts.push('bis ' + fmtD(r.bis));
+    if (r.bedingung) { meta.append(document.createTextNode(' · ')); meta.append(el('span', 'cond', r.bedingung)); }
+    if (parts.length) meta.append(document.createTextNode(' · ' + parts.join(' · ')));
+    tx.append(meta);
+    const pr = el('span', 'pr');
+    pr.append(el('span', 'now', r.preis != null ? fmtE(r.preis) : (r.rabatt != null ? '−' + r.rabatt + ' %' : '')));
+    if (r.regulaer != null && r.preis != null) pr.append(el('span', 'old', fmtE(r.regulaer)));
+    a.append(ic, tx, pr);
+    return a;
+  }
+
+  function counts(rows) {
+    const o = { gesamt: rows.length };
+    for (const [t, k] of TYPES) o[k] = rows.filter((r) => r.typ === t).length;
+    return o;
+  }
+
+  function drawTiles() {
+    const box = $('tiles'); box.replaceChildren();
+    const valid = ALL.filter((r) => !r.bis || r.bis >= today);
+    for (const m of MARKETS) {
+      const rows = m === 'Alle' ? valid : valid.filter((r) => r.markt === m);
+      const c = counts(rows);
+      const b = el('button', 'tile'); b.dataset.m = m; b.setAttribute('aria-pressed', String(state.markt === m));
+      const hd = el('span', 'hd'); hd.append(el('span', 'badge', m === 'Alle' ? '∑' : m[0]), document.createTextNode(m === 'Alle' ? 'Alle Märkte' : m));
+      const mini = el('span', 'mini');
+      for (const [, k, lab] of TYPES) { const s = el('span'); s.append(el('b', null, String(c[k])), document.createTextNode(' ' + lab.replace('1+1 ', '').replace('Mengenrabatt', 'Menge').replace('mit ', ''))); mini.append(s); }
+      b.append(hd, el('span', 'n', String(c.gesamt)), el('span', 'l', 'Angebote'), mini);
+      b.addEventListener('click', () => { state.markt = m; state.n1 = 8; state.n2 = PAGE; drawTiles(); draw(); });
+      box.append(b);
+    }
+    const tbox = $('types'); tbox.replaceChildren();
+    const rowsM = valid.filter((r) => state.markt === 'Alle' || r.markt === state.markt);
+    const c = counts(rowsM);
+    for (const [t, k, lab] of TYPES) {
+      const b = el('button', 'chip'); b.setAttribute('aria-pressed', String(state.typ === t));
+      b.append(el('b', null, String(c[k])), document.createTextNode('× ' + lab));
+      b.addEventListener('click', () => { state.typ = state.typ === t ? '' : t; state.n2 = PAGE; drawTiles(); draw(); });
+      tbox.append(b);
+    }
+  }
+
+  function fillList(box, btn, rows, n, onMore, emptyText) {
+    box.replaceChildren(...rows.slice(0, n).map(item));
+    if (!rows.length) box.append(el('div', 'empty', emptyText));
+    const rest = rows.length - n;
+    btn.hidden = rest <= 0;
+    if (rest > 0) { btn.textContent = rest > PAGE ? `${PAGE} weitere anzeigen (${rest} übrig)` : `Alle ${rows.length} anzeigen`; btn.onclick = onMore; }
+  }
+
+  function draw() {
+    const rows = ALL.filter(pass).sort(cmp);
+    const multi = rows.filter((r) => MULTI.includes(r.typ));
+    $('mehr').hidden = state.typ === 'Kundenkarte/App' || state.typ === 'Aktionspreis';
+    fillList($('l1'), $('m1'), multi, state.n1, () => { state.n1 += PAGE; draw(); }, 'Keine Mengenaktion für diese Auswahl.');
+    fillList($('l2'), $('m2'), rows, state.n2, () => { state.n2 += PAGE; draw(); }, 'Nichts gefunden. Probier einen anderen Begriff.');
+    $('cnt').textContent = rows.length + ' Angebote';
+  }
+
+  async function warten() {
+    try {
+      const [liste, rhy] = await Promise.all(['data/meine-liste.json', 'data/aktionsrhythmus.json'].map((u) => fetch(u).then((r) => r.json())));
+      const L = liste.rows || liste, R = rhy.rows || rhy;
+      const valid = ALL.filter((r) => !r.bis || r.bis >= today);
+      const out = R.map((r) => {
+        const l = L.find((x) => x.artikel === r.artikel);
+        let jetzt = [];
+        if (l) {
+          const inc = new RegExp(l.flugblatt_muster || l.muster, 'i'), exc = new RegExp(l.ausser, 'i'), req = l.muss && !l.flugblatt_muster ? new RegExp(l.muss, 'i') : null;
+          jetzt = valid.filter((a) => inc.test(a.produkt) && !exc.test(a.produkt) && (!req || req.test(a.produkt)));
+        }
+        const mk = [...new Set(jetzt.map((a) => a.markt))].join(', ');
+        const [e, cls] = jetzt.length ? ['Jetzt kaufen – Aktion bei ' + mk, 'go'] : r.anteil_wochen >= 60 ? ['Nie zum Normalpreis kaufen', 'wait'] : r.anteil_wochen >= 30 ? ['Wenn möglich warten', 'wait'] : ['Kaufen, wenn du es brauchst', ''];
+        return { a: r.artikel, w: r.anteil_wochen, e, cls };
+      }).sort((x, y) => y.w - x.w);
+      $('l3').replaceChildren(...out.map((o) => {
+        const d = el('div', 'tip');
+        const w = el('span', 'w'); const m = el('span', 'meter'); const i = el('i'); i.style.width = Math.max(0, Math.min(100, o.w)) + '%'; m.append(i); w.append(m, document.createTextNode(o.w + ' % der Wochen'));
+        d.append(el('span', 'a', o.a), w, el('span', 'e ' + o.cls, o.e));
+        return d;
+      }));
+    } catch (e) { $('warten').hidden = true; }
+  }
+
+  $('q').addEventListener('input', (e) => { state.q = e.target.value.trim().toLowerCase(); state.n1 = 8; state.n2 = PAGE; draw(); });
+  $('kat').addEventListener('change', (e) => { state.kat = e.target.value; state.n2 = PAGE; draw(); });
+  $('sort').addEventListener('change', (e) => { state.sort = e.target.value; draw(); });
+
+  fetch('data/aktionen.json', { cache: 'no-cache' }).then((r) => r.json()).then((d) => {
+    ALL = d.rows || d; STAND = d.stand || '';
+    if (STAND) $('stand').textContent = 'Billa, Spar, Hofer und Lidl · Region Wien · Stand ' + fmtD(STAND);
+    const ks = [...new Set(ALL.map((r) => r.kategorie))].sort((a, b) => a.localeCompare(b, 'de'));
+    $('kat').append(...ks.map((k) => new Option(k)));
+    drawTiles(); draw(); warten();
+  }).catch(() => {
+    const e = el('div', 'err', 'Die Angebote konnten nicht geladen werden. Prüfe die Internetverbindung und lade die Seite neu.');
+    $('alle').prepend(e);
+  });
+
+  if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+})();
+</script>
+</body>
+</html>
