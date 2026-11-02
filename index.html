@@ -144,6 +144,38 @@ section h2 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0
 .z-i.done .zn, .z-i.done .zp { text-decoration: line-through; color: var(--muted); }
 .z-rest { margin-top: .9rem; font-size: .85rem; color: var(--muted); }
 .z-rest b { color: var(--fg); font-weight: 600; }
+.fab { position: fixed; z-index: 25; right: max(1rem, env(safe-area-inset-right)); bottom: calc(1rem + env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: .55rem; padding: .8rem 1.15rem .8rem 1rem; border-radius: 999px; border: 0; background: var(--brand); color: #fff; font-weight: 800; font-size: .95rem; cursor: pointer; box-shadow: 0 10px 28px -10px rgba(0,0,0,.45); }
+.fab svg, .open-sheet svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.fab:hover { filter: brightness(1.06); }
+.open-sheet { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 1.2rem; padding: .75rem 1.1rem; border-radius: 14px; border: 0; background: var(--brand); color: #fff; font-weight: 800; cursor: pointer; }
+.sheet { position: fixed; inset: 0; z-index: 50; background: var(--bg); display: flex; flex-direction: column; padding: calc(1rem + env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) calc(.8rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left)); animation: up .22s ease-out; }
+@keyframes up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet > * { width: 100%; max-width: 720px; margin-inline: auto; }
+.sh-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.sh-top h2 { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.025em; }
+.sh-prog { margin: .15rem 0 0; color: var(--muted); font-size: .9rem; }
+.sh-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer; display: grid; place-items: center; flex: none; }
+.sh-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.sh-bar { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; margin: .8rem 0 .9rem; }
+.sh-bar i { display: block; height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .25s ease; }
+.sh-add button { width: 48px; padding: 0; font-size: 1.5rem; line-height: 1; }
+.sh-body { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 1rem; }
+.sh-g { margin-top: .9rem; }
+.sh-g h3 { display: flex; align-items: center; gap: .5rem; margin: 0 0 .3rem; font-size: 1rem; font-weight: 800; }
+.sh-g h3[data-m]::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1px var(--ring); }
+.sh-g h3 .sum { margin-left: auto; color: var(--price); font-variant-numeric: tabular-nums; }
+.sh-i { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .8rem; align-items: center; padding: .8rem .9rem; margin-bottom: .45rem; border-radius: 14px; background: var(--card); border: 1px solid var(--line); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.sh-i input { width: 24px; height: 24px; accent-color: var(--go); margin: 0; }
+.sh-i .n { font-weight: 600; font-size: 1.02rem; }
+.sh-i .m { display: block; font-size: .8rem; color: var(--muted); font-weight: 400; margin-top: .1rem; }
+.sh-i .p { font-weight: 800; color: var(--price); white-space: nowrap; }
+.sh-i.done { opacity: .55; }
+.sh-i.done .n, .sh-i.done .p { text-decoration: line-through; }
+.sh-empty { text-align: center; color: var(--muted); padding: 2.5rem 1rem; }
+.sh-foot { display: flex; gap: .6rem; justify-content: space-between; align-items: center; padding-top: .7rem; border-top: 1px solid var(--line); }
+.sh-foot button { font-size: .9rem; padding: .7rem 1rem; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer; }
+.sh-foot .sh-done { border: 0; background: var(--fg); color: var(--bg); font-weight: 800; padding-inline: 1.6rem; }
+body.sheet-open { overflow: hidden; }
 footer { display: grid; gap: .7rem; }
 .links { display: flex; flex-wrap: wrap; gap: .5rem; }
 .links a { display: inline-flex; align-items: center; gap: .45rem; font-weight: 500; font-size: .88rem; padding: .45rem .9rem .45rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); text-decoration: none; }
@@ -307,6 +339,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     <div class="list" id="l3"></div>
     <div class="listfoot" id="listfoot" hidden><span id="listsum"></span><button type="button" id="clearList">Liste leeren</button></div>
     <div class="plan" id="plan" hidden>
+      <button class="open-sheet" id="openSheet" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l2 10h10l2-7H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="16.5" cy="19" r="1.3"/></svg>Einkaufsliste im Vollbild öffnen</button>
       <h3>Wohin gehst du einkaufen?</h3>
       <p class="sub">Tippe auf einen oder mehrere Märkte. Darunter erscheint dein Einkaufszettel.</p>
       <div class="plan-m" id="planM"></div>
@@ -324,6 +357,20 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     <p>Privates Projekt, keine Verbindung zu den Händlern. Angaben ohne Gewähr – Bedingungen wie Mindestmenge oder App-Pflicht vor dem Einkauf im Flugblatt prüfen.</p>
   </footer>
 </main>
+<button class="fab" id="fab" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l2 10h10l2-7H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="16.5" cy="19" r="1.3"/></svg><span id="fabT">Einkaufsliste</span></button>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetT" hidden>
+  <div class="sh-top">
+    <div><h2 id="sheetT">Einkaufsliste</h2><p class="sh-prog" id="shProg"></p></div>
+    <button class="sh-btn" id="shMin" type="button" aria-label="Verkleinern" title="Verkleinern"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></button>
+  </div>
+  <div class="sh-bar"><i id="shBar"></i></div>
+  <form class="add sh-add" id="shAdd" autocomplete="off">
+    <input id="shIn" type="text" placeholder="Artikel hinzufügen" aria-label="Artikel hinzufügen" enterkeyhint="done">
+    <button type="submit" aria-label="Hinzufügen">+</button>
+  </form>
+  <div class="sh-body" id="shBody"></div>
+  <div class="sh-foot"><button type="button" id="shClean">Abgehakte entfernen</button><button type="button" class="sh-done" id="shClose">Fertig</button></div>
+</div>
 </div>
 
 <script>
@@ -546,7 +593,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
       sugg.append(b);
     }
     sugg.hidden = LISTE.length >= 3;
-    if (!LISTE.length) { box.replaceChildren(el('div', 'li-empty', 'Deine Liste ist noch leer. Tippe oben einen Artikel ein oder wähle einen Vorschlag.')); $('listfoot').hidden = true; $('plan').hidden = true; return; }
+    if (!LISTE.length) { box.replaceChildren(el('div', 'li-empty', 'Deine Liste ist noch leer. Tippe oben einen Artikel ein oder wähle einen Vorschlag.')); $('listfoot').hidden = true; $('plan').hidden = true; drawSheet(); return; }
     let inAktion = 0, gewaehlt = 0;
     box.replaceChildren(...LISTE.map((L, idx) => {
       const hits = finde(L.t, valid);
@@ -582,6 +629,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     $('listfoot').hidden = false;
     $('listsum').textContent = `${inAktion} von ${LISTE.length} Artikeln in Aktion · ${gewaehlt} ausgewählt`;
     drawPlan(byKey);
+    drawSheet();
   }
 
   function drawPlan(byKey) {
@@ -615,7 +663,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
         const k = p.L.pick;
         const lab = el('label', 'z-i' + (DONE.has(k) ? ' done' : ''));
         const cb = el('input'); cb.type = 'checkbox'; cb.checked = DONE.has(k);
-        cb.addEventListener('change', () => { if (cb.checked) DONE.add(k); else DONE.delete(k); save(); lab.classList.toggle('done', cb.checked); });
+        cb.addEventListener('change', () => { if (cb.checked) DONE.add(k); else DONE.delete(k); save(); lab.classList.toggle('done', cb.checked); drawSheet(); });
         const n = el('span', 'zn', p.r.produkt); n.append(el('span', 'zm', [p.L.t, p.r.menge, p.r.bedingung].filter(Boolean).join(' · ')));
         lab.append(cb, n, el('span', 'zp', fmtE(p.r.preis)));
         z.append(lab);
@@ -644,6 +692,53 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     addItems(v); inp.value = ''; inp.focus();
   });
   $('addIn').addEventListener('input', () => { const old = document.querySelector('.add-err'); if (old) old.remove(); });
+
+  let sheetOpen = false;
+  function drawSheet() {
+    const valid = ALL.filter((r) => !r.bis || r.bis >= today);
+    const byKey = new Map(valid.map((r) => [keyOf(r), r]));
+    const items = LISTE.map((L) => { const r = L.pick ? byKey.get(L.pick) : null; return { L, r, k: r ? L.pick : 'frei|' + norm(L.t) }; });
+    const total = items.length, done = items.filter((x) => DONE.has(x.k)).length;
+    $('fab').hidden = sheetOpen || total === 0;
+    $('fabT').textContent = total ? `Einkaufsliste · ${done}/${total}` : 'Einkaufsliste';
+    if (!sheetOpen) return;
+    $('shProg').textContent = total ? `${done} von ${total} erledigt` : 'Noch leer';
+    $('shBar').style.width = total ? Math.round(done / total * 100) + '%' : '0';
+    const body = $('shBody'); body.replaceChildren();
+    if (!total) { body.append(el('div', 'sh-empty', 'Füge oben Artikel hinzu.')); return; }
+    const row = (x) => {
+      const lab = el('label', 'sh-i' + (DONE.has(x.k) ? ' done' : ''));
+      const cb = el('input'); cb.type = 'checkbox'; cb.checked = DONE.has(x.k);
+      cb.addEventListener('change', () => { if (cb.checked) DONE.add(x.k); else DONE.delete(x.k); save(); drawSheet(); warten(); });
+      const n = el('span', 'n', x.r ? x.r.produkt : x.L.t);
+      n.append(el('span', 'm', x.r ? [x.L.t, x.r.menge, x.r.bedingung].filter(Boolean).join(' · ') : 'ohne ausgewähltes Angebot'));
+      lab.append(cb, n, el('span', 'p', x.r ? fmtE(x.r.preis) : ''));
+      return lab;
+    };
+    const markets = MARKETS.slice(1).filter((m) => items.some((x) => x.r && x.r.markt === m));
+    const order = [...markets.filter((m) => MAERKTE.has(m)), ...markets.filter((m) => !MAERKTE.has(m))];
+    for (const m of order) {
+      const xs = items.filter((x) => x.r && x.r.markt === m);
+      const g = el('div', 'sh-g'); const h = el('h3', null, m); h.dataset.m = m;
+      h.append(el('span', 'sum', fmtE(xs.reduce((s, x) => s + (x.r.preis || 0), 0)))); g.append(h);
+      xs.forEach((x) => g.append(row(x))); body.append(g);
+    }
+    const frei = items.filter((x) => !x.r);
+    if (frei.length) { const g = el('div', 'sh-g'); g.append(el('h3', null, markets.length ? 'Weitere Artikel' : 'Artikel')); frei.forEach((x) => g.append(row(x))); body.append(g); }
+  }
+  const openSheet = () => { sheetOpen = true; $('sheet').hidden = false; document.body.classList.add('sheet-open'); drawSheet(); };
+  const minSheet = () => { sheetOpen = false; $('sheet').hidden = true; document.body.classList.remove('sheet-open'); drawSheet(); };
+  $('fab').addEventListener('click', openSheet);
+  $('openSheet').addEventListener('click', openSheet);
+  $('shMin').addEventListener('click', minSheet);
+  $('shClose').addEventListener('click', minSheet);
+  $('shAdd').addEventListener('submit', (e) => { e.preventDefault(); const v = $('shIn').value.trim(); if (v.length < 2) return; addItems(v); $('shIn').value = ''; $('shIn').focus(); });
+  $('shClean').addEventListener('click', () => {
+    const valid = ALL.filter((r) => !r.bis || r.bis >= today); const byKey = new Map(valid.map((r) => [keyOf(r), r]));
+    const k = (L) => (L.pick && byKey.get(L.pick)) ? L.pick : 'frei|' + norm(L.t);
+    const vorher = LISTE.length; LISTE = LISTE.filter((L) => { const d = DONE.has(k(L)); if (d) DONE.delete(k(L)); return !d; });
+    if (LISTE.length !== vorher) { save(); warten(); }
+  });
   $('clearList').addEventListener('click', () => { if (LISTE.length && window.confirm('Ganze Einkaufsliste löschen?')) { LISTE = []; MAERKTE.clear(); DONE.clear(); save(); warten(); } });
   const app = $('app'), mq = window.matchMedia('(max-width: 860px)');
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
@@ -657,7 +752,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   });
   const closeMenu = () => { app.classList.remove('is-open'); syncBurger(); };
   $('scrim').addEventListener('click', closeMenu);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (sheetOpen) minSheet(); else closeMenu(); } });
   const go = (id) => { const t = $(id); if (t) window.scrollTo({ top: id === 'top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); };
   document.querySelectorAll('.nav[data-go]').forEach((n) => n.addEventListener('click', () => {
     document.querySelectorAll('.nav[data-go]').forEach((x) => x.setAttribute('aria-current', String(x === n)));

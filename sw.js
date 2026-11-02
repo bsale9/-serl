@@ -1,4 +1,4 @@
-const VERSION = 'aktionen-v7';
+const VERSION = 'aktionen-v8';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'apple-touch-icon.png',
   'manrope-latin-400-normal.woff2', 'manrope-latin-600-normal.woff2', 'manrope-latin-800-normal.woff2'];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
