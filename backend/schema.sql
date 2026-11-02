@@ -69,9 +69,10 @@ create or replace view admin.registrierungen as
   group by p.id order by p.registriert_am desc;
 
 create or replace view admin.registrierungen_pro_woche as
-  select date_trunc('week', registriert_am)::date as woche, count(*) as neu,
-         sum(count(*)) over (order by date_trunc('week', registriert_am)) as gesamt
-  from public.profile group by 1 order by 1 desc;
+  select woche, neu, sum(neu) over (order by woche) as gesamt
+  from (select date_trunc('week', registriert_am)::date as woche, count(*) as neu
+        from public.profile group by 1) w
+  order by woche desc;
 
 create or replace view admin.beliebteste_artikel as
   select lower(begriff) as begriff, count(*) as personen
