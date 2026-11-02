@@ -26,6 +26,7 @@
   :root { --bg: #16171a; --card: #1f2125; --fg: #ececee; --muted: #9a9ea6; --line: #2e3036; --price: #ff7a45; --go: #3fbf75; color-scheme: dark; }
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 button, input, select { font: inherit; color: inherit; }
@@ -94,6 +95,26 @@ section h2 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0
 .meter { display: inline-block; width: 4rem; height: 6px; background: var(--line); border-radius: 999px; margin-right: .5rem; vertical-align: middle; overflow: hidden; }
 .meter i { display: block; height: 100%; background: var(--price); border-radius: 999px; }
 
+.add { display: flex; gap: .5rem; margin: 0 0 .6rem; }
+.add input { flex: 1 1 auto; min-width: 0; font-size: 1rem; padding: .7rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--card); -webkit-appearance: none; appearance: none; }
+.add button { flex: none; font-weight: 800; padding: .7rem 1.1rem; border-radius: 14px; border: 0; background: var(--brand); color: #fff; cursor: pointer; }
+.add-err { color: var(--price); font-size: .82rem; margin: -.3rem 0 .6rem; }
+.sugg { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .8rem; }
+.sugg button { font-size: .82rem; padding: .3rem .7rem; border-radius: 999px; border: 1px dashed var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.sugg button:hover { color: var(--fg); border-color: var(--muted); }
+.li { padding: .8rem 0; border-top: 1px solid var(--line); }
+.li:first-child { border-top: 0; }
+.li-h { display: flex; align-items: center; gap: .6rem; }
+.li-h .t { font-weight: 800; font-size: 1rem; }
+.li-h .st { font-size: .82rem; color: var(--muted); }
+.li-h .st.go { color: var(--go); font-weight: 600; }
+.li-h .x { margin-left: auto; width: 30px; height: 30px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; }
+.li-h .x:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); color: var(--fg); }
+.li .item { padding: .55rem 0 .2rem; border-top: 0; }
+.li .more-in { font-size: .8rem; color: var(--muted); background: transparent; border: 0; padding: .3rem 0 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.li-empty { padding: 1.2rem .3rem; color: var(--muted); text-align: center; }
+.listfoot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: .6rem; font-size: .85rem; color: var(--muted); }
+.listfoot button { font-size: .85rem; background: transparent; border: 0; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 footer { display: grid; gap: .7rem; }
 .links { display: flex; flex-wrap: wrap; gap: .5rem; }
 .links a { display: inline-flex; align-items: center; gap: .45rem; font-weight: 500; font-size: .88rem; padding: .45rem .9rem .45rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); text-decoration: none; }
@@ -202,7 +223,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   <button class="nav" data-go="top" aria-current="true" title="Start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg><span class="lbl">Start</span></button>
   <button class="nav" data-go="mehr" title="Mehr kaufen, mehr sparen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1.5S10 9 12 9c2 0 6 1 6-1.5S14 5 12 9"/></svg><span class="lbl">Mengenaktionen</span></button>
   <button class="nav" data-go="alle" title="Alle Angebote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span class="lbl">Alle Angebote</span></button>
-  <button class="nav" data-go="warten" title="Kaufen oder warten?"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="lbl">Kaufen oder warten?</span></button>
+  <button class="nav" data-go="warten" title="Meine Einkaufsliste"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l2 10h10l2-7H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="16.5" cy="19" r="1.3"/></svg><span class="lbl">Meine Einkaufsliste</span></button>
   <div class="nav-h">Märkte</div>
   <button class="nav" data-markt="Billa" data-m="Billa" title="Billa"><span class="dot"></span><span class="lbl">Billa</span><span class="cnt" data-cnt="Billa"></span></button>
   <button class="nav" data-markt="Spar" data-m="Spar" title="Spar"><span class="dot"></span><span class="lbl">Spar</span><span class="cnt" data-cnt="Spar"></span></button>
@@ -247,9 +268,15 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   </section>
 
   <section id="warten">
-    <h2>Kaufen oder warten?</h2>
-    <p class="sub">Deine Einkaufsliste: Wie oft war das bei Billa im letzten Jahr in Aktion?</p>
+    <h2>Meine Einkaufsliste</h2>
+    <p class="sub">Tippe ein, was du brauchst. Die App zeigt dir, wo es diese Woche in Aktion ist. Die Liste bleibt auf diesem Gerät gespeichert.</p>
+    <form class="add" id="addForm" autocomplete="off">
+      <input id="addIn" type="text" placeholder="z. B. Kaffee, Butter, Skyr" aria-label="Artikel hinzufügen" enterkeyhint="done">
+      <button type="submit">Hinzufügen</button>
+    </form>
+    <div class="sugg" id="sugg"></div>
     <div class="list" id="l3"></div>
+    <div class="listfoot" id="listfoot" hidden><span id="listsum"></span><button type="button" id="clearList">Liste leeren</button></div>
   </section>
 
   <footer>
@@ -445,30 +472,67 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     $('cnt').textContent = rows.length + ' Angebote';
   }
 
-  async function warten() {
-    try {
-      const [liste, rhy] = await Promise.all(['meine-liste.json', 'aktionsrhythmus.json'].map((u) => fetch(u).then((r) => r.json())));
-      const L = liste.rows || liste, R = rhy.rows || rhy;
-      const valid = ALL.filter((r) => !r.bis || r.bis >= today);
-      const out = R.map((r) => {
-        const l = L.find((x) => x.artikel === r.artikel);
-        let jetzt = [];
-        if (l) {
-          const inc = new RegExp(l.flugblatt_muster || l.muster, 'i'), exc = new RegExp(l.ausser, 'i'), req = l.muss && !l.flugblatt_muster ? new RegExp(l.muss, 'i') : null;
-          jetzt = valid.filter((a) => inc.test(a.produkt) && !exc.test(a.produkt) && (!req || req.test(a.produkt)));
-        }
-        const mk = [...new Set(jetzt.map((a) => a.markt))].join(', ');
-        const [e, cls] = jetzt.length ? ['Jetzt kaufen – Aktion bei ' + mk, 'go'] : r.anteil_wochen >= 60 ? ['Nie zum Normalpreis kaufen', 'wait'] : r.anteil_wochen >= 30 ? ['Wenn möglich warten', 'wait'] : ['Kaufen, wenn du es brauchst', ''];
-        return { a: r.artikel, w: r.anteil_wochen, e, cls };
-      }).sort((x, y) => y.w - x.w);
-      $('l3').replaceChildren(...out.map((o) => {
-        const d = el('div', 'tip');
-        const w = el('span', 'w'); const m = el('span', 'meter'); const i = el('i'); i.style.width = Math.max(0, Math.min(100, o.w)) + '%'; m.append(i); w.append(m, document.createTextNode(o.w + ' % der Wochen'));
-        d.append(el('span', 'a', o.a), w, el('span', 'e ' + o.cls, o.e));
-        return d;
-      }));
-    } catch (e) { $('warten').hidden = true; }
+  const norm = (s) => s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const loadList = () => { try { const v = JSON.parse(localStorage.getItem('liste') || '[]'); return Array.isArray(v) ? v.filter((x) => typeof x === 'string').slice(0, 100) : []; } catch (e) { return []; } };
+  const saveList = (L) => { try { localStorage.setItem('liste', JSON.stringify(L)); } catch (e) {} };
+  let LISTE = loadList();
+  const open3 = new Set();
+  const finde = (begriff, valid) => {
+    const words = norm(begriff).split(/\s+/).filter(Boolean);
+    if (!words.length) return [];
+    const res = words.map((w) => new RegExp('(^|[^a-z])' + esc(w)));
+    return valid.filter((r) => { const n = norm(r.produkt + ' ' + r.kategorie); return res.every((re) => re.test(n)); })
+      .sort((a, b) => (b.rabatt ?? 0) - (a.rabatt ?? 0) || (a.preis ?? 1e9) - (b.preis ?? 1e9));
+  };
+  function warten() {
+    const valid = ALL.filter((r) => !r.bis || r.bis >= today);
+    const box = $('l3');
+    const sugg = $('sugg'); sugg.replaceChildren();
+    for (const s of ['Kaffee', 'Butter', 'Bier', 'Käse', 'Joghurt', 'Schokolade', 'Waschmittel', 'Lachs'].filter((s) => !LISTE.some((x) => norm(x) === norm(s)))) {
+      const b = el('button', null, '+ ' + s); b.type = 'button';
+      b.addEventListener('click', () => { addItems(s); });
+      sugg.append(b);
+    }
+    sugg.hidden = LISTE.length >= 3;
+    if (!LISTE.length) { box.replaceChildren(el('div', 'li-empty', 'Deine Liste ist noch leer. Tippe oben einen Artikel ein oder wähle einen Vorschlag.')); $('listfoot').hidden = true; return; }
+    let inAktion = 0;
+    box.replaceChildren(...LISTE.map((begriff, idx) => {
+      const hits = finde(begriff, valid);
+      if (hits.length) inAktion++;
+      const d = el('div', 'li');
+      const h = el('div', 'li-h');
+      const mk = [...new Set(hits.map((a) => a.markt))];
+      h.append(el('span', 't', begriff), el('span', 'st' + (hits.length ? ' go' : ''), hits.length ? `${hits.length} ${hits.length === 1 ? 'Angebot' : 'Angebote'} · ${mk.join(', ')}` : 'Diese Woche keine Aktion'));
+      const x = el('button', 'x', '×'); x.type = 'button'; x.setAttribute('aria-label', begriff + ' entfernen');
+      x.addEventListener('click', () => { LISTE.splice(idx, 1); saveList(LISTE); warten(); });
+      h.append(x); d.append(h);
+      const n = open3.has(begriff) ? hits.length : 2;
+      hits.slice(0, n).forEach((r) => d.append(item(r)));
+      if (hits.length > n) {
+        const m = el('button', 'more-in', `${hits.length - n} weitere anzeigen`); m.type = 'button';
+        m.addEventListener('click', () => { open3.add(begriff); warten(); });
+        d.append(m);
+      }
+      return d;
+    }));
+    $('listfoot').hidden = false;
+    $('listsum').textContent = `${inAktion} von ${LISTE.length} Artikeln diese Woche in Aktion`;
   }
+  function addItems(text) {
+    const neu = text.split(/[,;\n]/).map((s) => s.trim().replace(/\s+/g, ' ')).filter((s) => s.length >= 2 && s.length <= 40);
+    for (const s of neu) if (!LISTE.some((x) => norm(x) === norm(s))) LISTE.push(s);
+    LISTE = LISTE.slice(0, 100); saveList(LISTE); warten();
+  }
+  $('addForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const inp = $('addIn'), v = inp.value.trim();
+    const old = document.querySelector('.add-err'); if (old) old.remove();
+    if (v.length < 2) { const er = el('p', 'add-err', 'Gib mindestens 2 Buchstaben ein.'); $('addForm').after(er); return; }
+    addItems(v); inp.value = ''; inp.focus();
+  });
+  $('addIn').addEventListener('input', () => { const old = document.querySelector('.add-err'); if (old) old.remove(); });
+  $('clearList').addEventListener('click', () => { if (LISTE.length && window.confirm('Ganze Einkaufsliste löschen?')) { LISTE = []; saveList(LISTE); warten(); } });
 
   const app = $('app'), mq = window.matchMedia('(max-width: 860px)');
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
