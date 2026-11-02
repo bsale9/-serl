@@ -331,7 +331,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   const MARKETS = ['Alle', 'Billa', 'Spar', 'Hofer', 'Lidl'];
   const TYPES = [['Gratis (X+Y)', 'gratis', '1+1 gratis'], ['Mengenrabatt', 'mengen', 'Mengenrabatt'], ['Kundenkarte/App', 'karte', 'mit App']];
   const MULTI = ['Gratis (X+Y)', 'Mengenrabatt'];
-  const PAGE = 40;
+  const PAGE = 40, SHORT = 15;
   const DOW = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
   const iso = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   const pd = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
@@ -398,7 +398,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   const KAT = { 'Obst & Gemüse': '🥕', 'Brot & Gebäck': '🍞', 'Getränke': '🥤', 'Bier & Wein': '🍷', 'Kaffee & Tee': '☕', 'Milch & Käse': '🧀', 'Fleisch & Fisch': '🥩', 'Tiefkühl': '❄️', 'Vorrat & Backen': '🫙', 'Süsses & Snacks': '🍫', 'Drogerie & Haushalt': '🧴' };
   const emoji = (r) => { for (const [re, e] of EMO) if (re.test(r.produkt)) return e; return KAT[r.kategorie] || '🛒'; };
 
-  const state = { markt: 'Alle', typ: '', kat: '', q: '', sort: 'rabatt', n1: 8, n2: PAGE };
+  const state = { markt: 'Alle', typ: '', kat: '', q: '', sort: 'rabatt', n1: 8, n2: SHORT };
   let ALL = [], STAND = '';
 
   const pass = (r) => {
@@ -476,7 +476,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
       const mini = el('span', 'mini');
       for (const [, k, lab] of TYPES) { const s = el('span'); s.append(el('b', null, String(c[k])), document.createTextNode(' ' + lab.replace('1+1 ', '').replace('Mengenrabatt', 'Menge').replace('mit ', ''))); mini.append(s); }
       b.append(hd, el('span', 'n', String(c.gesamt)), el('span', 'l', 'Angebote'), mini);
-      b.addEventListener('click', () => { state.markt = m; state.n1 = 8; state.n2 = PAGE; drawTiles(); draw(); });
+      b.addEventListener('click', () => { state.markt = m; state.n1 = 8; state.n2 = SHORT; drawTiles(); draw(); });
       box.append(b);
     }
     const tbox = $('types'); tbox.replaceChildren();
@@ -485,7 +485,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     for (const [t, k, lab] of TYPES) {
       const b = el('button', 'chip'); b.setAttribute('aria-pressed', String(state.typ === t));
       b.append(el('b', null, String(c[k])), document.createTextNode('× ' + lab));
-      b.addEventListener('click', () => { state.typ = state.typ === t ? '' : t; state.n2 = PAGE; drawTiles(); draw(); });
+      b.addEventListener('click', () => { state.typ = state.typ === t ? '' : t; state.n2 = SHORT; drawTiles(); draw(); });
       tbox.append(b);
     }
   }
@@ -503,7 +503,13 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     const multi = rows.filter((r) => MULTI.includes(r.typ));
     $('mehr').hidden = state.typ === 'Kundenkarte/App' || state.typ === 'Aktionspreis';
     fillList($('l1'), $('m1'), multi, state.n1, () => { state.n1 += PAGE; draw(); }, 'Keine Mengenaktion für diese Auswahl.');
-    fillList($('l2'), $('m2'), rows, state.n2, () => { state.n2 += PAGE; draw(); }, 'Nichts gefunden. Probier einen anderen Begriff.');
+    const all2 = state.n2 >= rows.length && rows.length > SHORT;
+    fillList($('l2'), $('m2'), rows, state.n2, () => { state.n2 = rows.length; draw(); }, 'Nichts gefunden. Probier einen anderen Begriff.');
+    if (rows.length > SHORT) {
+      const b2 = $('m2'); b2.hidden = false;
+      if (all2) { b2.textContent = 'Weniger anzeigen'; b2.onclick = () => { state.n2 = SHORT; draw(); $('alle').scrollIntoView({ behavior: 'smooth' }); }; }
+      else b2.textContent = `Alle ${rows.length} Angebote anzeigen`;
+    }
     $('cnt').textContent = rows.length + ' Angebote';
   }
 
@@ -658,13 +664,13 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
     closeMenu(); go(n.dataset.go);
   }));
   document.querySelectorAll('.nav[data-markt]').forEach((n) => n.addEventListener('click', () => {
-    state.markt = state.markt === n.dataset.markt ? 'Alle' : n.dataset.markt; state.n1 = 8; state.n2 = PAGE;
+    state.markt = state.markt === n.dataset.markt ? 'Alle' : n.dataset.markt; state.n1 = 8; state.n2 = SHORT;
     drawTiles(); draw(); closeMenu(); go('alle');
   }));
   document.querySelectorAll('.side a.nav').forEach((a) => a.addEventListener('click', closeMenu));
 
-  $('q').addEventListener('input', (e) => { state.q = e.target.value.trim().toLowerCase(); state.n1 = 8; state.n2 = PAGE; draw(); });
-  $('kat').addEventListener('change', (e) => { state.kat = e.target.value; state.n2 = PAGE; draw(); });
+  $('q').addEventListener('input', (e) => { state.q = e.target.value.trim().toLowerCase(); state.n1 = 8; state.n2 = SHORT; draw(); });
+  $('kat').addEventListener('change', (e) => { state.kat = e.target.value; state.n2 = SHORT; draw(); });
   $('sort').addEventListener('change', (e) => { state.sort = e.target.value; draw(); });
 
   fetch('aktionen.json', { cache: 'no-cache' }).then((r) => r.json()).then((d) => {
