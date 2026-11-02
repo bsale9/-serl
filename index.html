@@ -124,6 +124,27 @@ section h2 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0
 .fstar[aria-pressed="true"] svg { fill: currentColor; }
 .li-h .fstar.on-left { margin-left: -.35rem; }
 .li-h .fstar:not(.on-left) ~ .x { margin-left: 0; }
+.acc-btn { margin-left: .9rem; display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .8rem .45rem .6rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font-weight: 700; font-size: .85rem; cursor: pointer; white-space: nowrap; }
+.acc-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.acc-btn.is-in { background: color-mix(in srgb, var(--brand) 10%, var(--card)); border-color: color-mix(in srgb, var(--brand) 30%, var(--line)); color: var(--brand); }
+.modal { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.4); display: grid; place-items: center; padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom)); }
+.modal-c { position: relative; width: 100%; max-width: 420px; background: var(--card); color: var(--fg); border-radius: 22px; padding: 1.5rem 1.3rem 1.2rem; box-shadow: 0 20px 60px -20px rgba(0,0,0,.5); animation: up .2s ease-out; }
+.modal-c h2 { margin: 0 2rem .2rem 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+.modal-x { position: absolute; top: .7rem; right: .7rem; width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); font-size: 1.4rem; cursor: pointer; }
+.acc-f { display: grid; gap: .5rem; margin-top: .4rem; }
+.acc-f label { font-size: .8rem; font-weight: 700; color: var(--muted); }
+.acc-f input { font-size: 1.05rem; padding: .8rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); -webkit-appearance: none; appearance: none; }
+#accCode { letter-spacing: .3em; font-weight: 700; text-align: center; }
+.acc-go { margin-top: .3rem; font-weight: 800; font-size: 1rem; padding: .85rem 1rem; border-radius: 14px; border: 0; background: var(--brand); color: #fff; cursor: pointer; width: 100%; }
+.acc-go.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+.acc-go[disabled] { opacity: .6; cursor: progress; }
+.acc-link { background: transparent; border: 0; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: .85rem; padding: .3rem; }
+.acc-del { display: block; margin: .8rem auto 0; color: var(--price); }
+.acc-small { font-size: .75rem; color: var(--muted); margin: .9rem 0 0; line-height: 1.45; }
+.acc-tg { display: flex; align-items: center; gap: .6rem; padding: .8rem 0; font-size: .95rem; }
+.acc-tg input { width: 20px; height: 20px; accent-color: var(--brand); }
+.acc-msg { margin: .6rem 0 0; font-size: .85rem; color: var(--price); min-height: 0; }
+.acc-msg:empty { display: none; }
 .li-empty { padding: 1.2rem .3rem; color: var(--muted); text-align: center; }
 .listfoot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: .6rem; font-size: .85rem; color: var(--muted); }
 .listfoot button { font-size: .85rem; background: transparent; border: 0; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
@@ -262,6 +283,7 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
   .scrim { position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,.35); opacity: 0; pointer-events: none; transition: opacity .2s; display: block; }
   .app.is-open .scrim { opacity: 1; pointer-events: auto; }
   .topbar .stand { display: none; }
+  .acc-btn { margin-left: auto; }
   .hero { padding: 1.6rem 1.1rem 1.8rem; }
   .hero-in { grid-template-columns: minmax(0, 1fr); padding-left: 0; gap: 1.2rem; }
   .hero-logo { left: auto; right: -3.5rem; top: 2.2rem; width: 210px; transform: rotate(14deg); opacity: .13; }
@@ -279,6 +301,7 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   <button class="burger" id="burger" aria-label="Menü" aria-expanded="true" aria-controls="side"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <a class="brand" href="#top"><img src="icon-192.png" alt="">Aktionen</a>
   <span class="stand" id="stand2"></span>
+  <button class="acc-btn" id="accBtn" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 19.5c1.3-3.3 4-5 7.2-5s5.9 1.7 7.2 5"/></svg><span id="accLbl">Anmelden</span></button>
 </div>
   <header class="hero" id="top">
     <svg class="hero-logo" viewBox="-160 -170 320 360" aria-hidden="true"><g transform="rotate(0)"><path d="M-118 -150 H70 L150 -70 V150 a22 22 0 0 1 -22 22 H-118 a22 22 0 0 1 -22 -22 V-128 a22 22 0 0 1 22 -22 Z" fill="#fff"/><circle cx="96" cy="-104" r="19" fill="#d9481a"/><path d="M-62 92 L72 -60" stroke="#d9481a" stroke-width="26" stroke-linecap="round"/><circle cx="-48" cy="-40" r="30" fill="none" stroke="#d9481a" stroke-width="24"/><circle cx="60" cy="74" r="30" fill="none" stroke="#d9481a" stroke-width="24"/></g></svg>
@@ -397,6 +420,37 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
 </div>
 </div>
 
+<div class="modal" id="acc" hidden role="dialog" aria-modal="true" aria-labelledby="accT">
+  <div class="modal-c">
+    <button class="modal-x" id="accX" type="button" aria-label="Schliessen">×</button>
+    <div id="accOut">
+      <h2 id="accT">Konto erstellen oder anmelden</h2>
+      <p class="sub">Mit einem Konto bleiben deine Lieblingsartikel auf allen Geräten gespeichert, und wir können dich benachrichtigen, sobald einer davon in Aktion ist. Kein Passwort nötig.</p>
+      <form id="accMailF" class="acc-f" autocomplete="on">
+        <label for="accMail">E-Mail-Adresse</label>
+        <input id="accMail" type="email" required autocomplete="email" inputmode="email" placeholder="name@beispiel.at" enterkeyhint="send">
+        <button type="submit" class="acc-go">Code per E-Mail senden</button>
+      </form>
+      <form id="accCodeF" class="acc-f" hidden autocomplete="off">
+        <p class="sub" id="accSent"></p>
+        <label for="accCode">Code aus der E-Mail</label>
+        <input id="accCode" type="text" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" maxlength="10" placeholder="123456" enterkeyhint="done">
+        <button type="submit" class="acc-go">Bestätigen</button>
+        <button type="button" class="acc-link" id="accBack">Andere E-Mail-Adresse verwenden</button>
+      </form>
+      <p class="acc-small">Mit der Anmeldung stimmst du zu, dass wir deine E-Mail-Adresse und deine Lieblingsartikel speichern, um dich über Aktionen zu informieren. Du kannst dein Konto jederzeit löschen.</p>
+    </div>
+    <div id="accIn" hidden>
+      <h2>Dein Konto</h2>
+      <p class="sub">Angemeldet als <b id="accWho"></b></p>
+      <label class="acc-tg"><input type="checkbox" id="accMailOn"> Treffer zusätzlich per E-Mail schicken</label>
+      <button type="button" class="acc-go ghost" id="accOutBtn">Abmelden</button>
+      <button type="button" class="acc-link acc-del" id="accDel">Konto löschen</button>
+    </div>
+    <p class="acc-msg" id="accMsg" role="status"></p>
+  </div>
+</div>
+<script src="supabase.js"></script>
 <script>
 (() => {
   const MARKETS = ['Alle', 'Billa', 'Spar', 'Hofer', 'Lidl'];
@@ -607,22 +661,100 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   const radio = (on, label, fn) => { const b = el('button', 'rb'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', String(on)); b.setAttribute('aria-label', label); b.addEventListener('click', fn); return b; };
 
   // ---- Lieblingsartikel + Benachrichtigungen ----
-  const PUSH_API = '';   // wird gesetzt, sobald der Benachrichtigungs-Server läuft
+  // Supabase-Projekt (öffentliche Adresse und öffentlicher Schlüssel, beide dürfen im Code stehen)
+  const SB_URL = '';
+  const SB_KEY = '';
+  const sb = SB_URL && SB_KEY && window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } }) : null;
+  let USER = null, afterLogin = null;
   const CAP = window.Capacitor;
   const NATIVE = !!(CAP && CAP.isNativePlatform && CAP.isNativePlatform());
   const PN = NATIVE && CAP.Plugins ? CAP.Plugins.PushNotifications : null;
   let FAVS = (lsGet('favs', []) || []).filter((x) => typeof x === 'string');
   let PUSH = lsGet('push', 'aus');           // 'aus' | 'an' | 'abgelehnt'
   const isFav = (t) => FAVS.some((f) => norm(f) === norm(t));
-  const saveFavs = () => { lsSet('favs', FAVS); syncPush(); };
-  const toggleFav = (t) => { if (isFav(t)) FAVS = FAVS.filter((f) => norm(f) !== norm(t)); else FAVS.push(t); FAVS = FAVS.slice(0, 50); saveFavs(); drawFav(); warten(); };
+  const saveFavs = (neu) => { lsSet('favs', FAVS); if (sb && USER && neu && neu.length) sb.from('favoriten').upsert(neu.map((b) => ({ user_id: USER.id, begriff: b })), { onConflict: 'user_id,begriff', ignoreDuplicates: true }).then(() => {}); };
+  const toggleFav = (t) => {
+    if (isFav(t)) { const weg = FAVS.filter((f) => norm(f) === norm(t)); FAVS = FAVS.filter((f) => norm(f) !== norm(t)); if (sb && USER) sb.from('favoriten').delete().eq('user_id', USER.id).in('begriff', weg).then(() => {}); }
+    else { FAVS.push(t); if (sb && USER) sb.from('favoriten').upsert({ user_id: USER.id, begriff: t }, { onConflict: 'user_id,begriff', ignoreDuplicates: true }).then(() => {}); }
+    FAVS = FAVS.slice(0, 50); lsSet('favs', FAVS); drawFav(); warten();
+  };
   const starBtn = (t) => { const b = el('button', 'fstar'); b.type = 'button'; b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>'; const on = isFav(t); b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-label', on ? t + ' nicht mehr merken' : t + ' als Lieblingsartikel merken'); b.addEventListener('click', () => toggleFav(t)); return b; };
   function syncPush() {
     const token = lsGet('pushToken', null);
-    if (!PUSH_API || !token) return;
-    fetch(PUSH_API + '/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, platform: 'ios', favs: FAVS }) }).catch(() => {});
+    if (!sb || !USER || !token) return;
+    sb.from('geraete').upsert({ token, user_id: USER.id, plattform: 'ios', zuletzt_gesehen: new Date().toISOString() }, { onConflict: 'token' }).then(() => {});
+  }
+  // Lieblingsartikel dieses Geräts mit dem Konto zusammenführen
+  async function mergeFavs() {
+    const { data, error } = await sb.from('favoriten').select('begriff');
+    if (error) return;
+    const server = (data || []).map((x) => x.begriff);
+    const neu = FAVS.filter((f) => !server.some((g) => norm(g) === norm(f)));
+    if (neu.length) await sb.from('favoriten').upsert(neu.map((b) => ({ user_id: USER.id, begriff: b })), { onConflict: 'user_id,begriff', ignoreDuplicates: true });
+    FAVS = [...server, ...neu].slice(0, 50); lsSet('favs', FAVS); drawFav(); warten();
+  }
+  // ---- Konto ----
+  const accMsg = (t) => { $('accMsg').textContent = t || ''; };
+  function drawAcc() {
+    const b = $('accBtn'); b.hidden = !sb;
+    b.classList.toggle('is-in', !!USER);
+    $('accLbl').textContent = USER ? 'Konto' : 'Anmelden';
+    $('accOut').hidden = !!USER; $('accIn').hidden = !USER;
+    if (USER) $('accWho').textContent = USER.email || '';
+  }
+  function openAcc(then) {
+    if (!sb) return;
+    afterLogin = then || null; accMsg('');
+    $('acc').hidden = false; drawAcc();
+    if (USER) sb.from('profile').select('mail_benachrichtigung').eq('id', USER.id).maybeSingle().then(({ data }) => { $('accMailOn').checked = !data || data.mail_benachrichtigung !== false; });
+    else setTimeout(() => ($('accCodeF').hidden ? $('accMail') : $('accCode')).focus(), 50);
+  }
+  const closeAcc = () => { $('acc').hidden = true; };
+  if (sb) {
+    $('accBtn').addEventListener('click', () => openAcc());
+    $('accX').addEventListener('click', closeAcc);
+    $('acc').addEventListener('click', (e) => { if (e.target === $('acc')) closeAcc(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('acc').hidden) closeAcc(); });
+    $('accMailF').addEventListener('submit', async (e) => {
+      e.preventDefault(); const btn = e.submitter || $('accMailF').querySelector('button'); btn.disabled = true; accMsg('');
+      const email = $('accMail').value.trim().toLowerCase();
+      const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+      btn.disabled = false;
+      if (error) { accMsg(/rate|seconds/i.test(error.message) ? 'Bitte warte kurz, bevor du einen neuen Code anforderst.' : 'Das hat nicht geklappt. Prüfe die E-Mail-Adresse.'); return; }
+      $('accSent').textContent = 'Wir haben dir einen Code an ' + email + ' geschickt. Schau auch im Spam-Ordner nach.';
+      $('accMailF').hidden = true; $('accCodeF').hidden = false; $('accCode').value = ''; $('accCode').focus();
+    });
+    $('accCodeF').addEventListener('submit', async (e) => {
+      e.preventDefault(); const btn = $('accCodeF').querySelector('.acc-go'); btn.disabled = true; accMsg('');
+      const { error } = await sb.auth.verifyOtp({ email: $('accMail').value.trim().toLowerCase(), token: $('accCode').value.replace(/\s/g, ''), type: 'email' });
+      btn.disabled = false;
+      if (error) { accMsg('Der Code stimmt nicht oder ist abgelaufen.'); return; }
+      $('accMailF').hidden = false; $('accCodeF').hidden = true; closeAcc();
+      const f = afterLogin; afterLogin = null; if (f) f();
+    });
+    $('accBack').addEventListener('click', () => { $('accMailF').hidden = false; $('accCodeF').hidden = true; accMsg(''); $('accMail').focus(); });
+    $('accOutBtn').addEventListener('click', async () => {
+      const token = lsGet('pushToken', null);
+      if (token && USER) await sb.from('geraete').delete().eq('token', token);
+      await sb.auth.signOut(); closeAcc();
+    });
+    $('accDel').addEventListener('click', async () => {
+      if (!USER || !window.confirm('Konto wirklich löschen? Deine gespeicherten Lieblingsartikel und Benachrichtigungen werden entfernt. Auf diesem Gerät bleiben sie erhalten.')) return;
+      const { error } = await sb.rpc('konto_loeschen');
+      if (error) { accMsg('Das Konto konnte nicht gelöscht werden. Versuch es später nochmals.'); return; }
+      await sb.auth.signOut(); closeAcc();
+    });
+    $('accMailOn').addEventListener('change', (e) => { if (USER) sb.from('profile').update({ mail_benachrichtigung: e.target.checked }).eq('id', USER.id).then(() => {}); });
+    sb.auth.onAuthStateChange((ev, session) => {
+      const vorher = USER && USER.id; USER = session ? session.user : null; drawAcc(); drawNotify();
+      if (USER && USER.id !== vorher) setTimeout(() => {
+        mergeFavs(); syncPush();
+        sb.from('profile').update({ zuletzt_aktiv: new Date().toISOString() }).eq('id', USER.id).then(() => {});
+      }, 0);
+    });
   }
   async function enablePush() {
+    if (sb && !USER) { openAcc(enablePush); return; }
     if (!PN) return;
     try {
       let p = await PN.checkPermissions();
@@ -639,14 +771,19 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   }
   function drawNotify(msg) {
     const box = $('notify'), b = $('notifyBtn');
-    box.classList.toggle('is-on', NATIVE && PUSH === 'an');
-    b.hidden = !(NATIVE && PUSH !== 'an');
-    b.onclick = enablePush;
-    $('notifyTxt').textContent = msg || (!NATIVE ? 'Benachrichtigungen gibt es in der iPhone-App. Hier im Browser siehst du deine Treffer unten.'
-      : PUSH === 'an' ? 'Benachrichtigungen sind an. Du bekommst eine Nachricht, sobald ein Lieblingsartikel in Aktion ist.'
-      : PUSH === 'abgelehnt' ? 'Benachrichtigungen sind ausgeschaltet. Du kannst sie in den iPhone-Einstellungen unter «Aktionen» erlauben.'
-      : 'Lass dich benachrichtigen, sobald ein Lieblingsartikel in Aktion ist.');
-    if (NATIVE && PUSH === 'abgelehnt') { b.hidden = false; b.textContent = 'Nochmals'; } else b.textContent = 'Aktivieren';
+    const an = NATIVE ? PUSH === 'an' && (!sb || USER) : !!(sb && USER);
+    box.classList.toggle('is-on', an);
+    let txt, knopf = null, fn = enablePush;
+    if (NATIVE) {
+      if (an) txt = 'Benachrichtigungen sind an. Du bekommst eine Nachricht, sobald ein Lieblingsartikel in Aktion ist.';
+      else if (PUSH === 'abgelehnt') { txt = 'Benachrichtigungen sind ausgeschaltet. Du kannst sie in den iPhone-Einstellungen unter «Aktionen» erlauben.'; knopf = 'Nochmals'; }
+      else { txt = 'Lass dich benachrichtigen, sobald ein Lieblingsartikel in Aktion ist.'; knopf = 'Aktivieren'; }
+    } else if (sb) {
+      if (USER) txt = 'Du bist angemeldet. Wir schicken dir eine E-Mail, sobald ein Lieblingsartikel in Aktion ist. In der iPhone-App kommt es als Benachrichtigung.';
+      else { txt = 'Melde dich an, dann sagen wir dir Bescheid, sobald ein Lieblingsartikel in Aktion ist.'; knopf = 'Anmelden'; fn = () => openAcc(); }
+    } else txt = 'Benachrichtigungen gibt es in der iPhone-App. Hier im Browser siehst du deine Treffer unten.';
+    $('notifyTxt').textContent = msg || txt;
+    b.hidden = !knopf; if (knopf) b.textContent = knopf; b.onclick = fn;
   }
   function drawFav() {
     drawNotify();
@@ -860,8 +997,8 @@ b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800
   $('favForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const neu = $('favIn').value.split(/[,;\n]/).map((x) => x.trim().replace(/\s+/g, ' ')).filter((x) => x.length >= 2 && x.length <= 40);
-    for (const f of neu) if (!isFav(f)) FAVS.push(f);
-    FAVS = FAVS.slice(0, 50); $('favIn').value = ''; saveFavs(); drawFav(); warten();
+    const dazu = []; for (const f of neu) if (!isFav(f)) { FAVS.push(f); dazu.push(f); }
+    FAVS = FAVS.slice(0, 50); $('favIn').value = ''; saveFavs(dazu); drawFav(); warten();
   });
   drawNotify();
 
