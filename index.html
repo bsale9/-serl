@@ -14,9 +14,9 @@
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-@font-face { font-family: 'DM Sans'; font-weight: 400; font-display: swap; src: url(dm-sans-latin-400-normal.woff2) format('woff2'); }
-@font-face { font-family: 'DM Sans'; font-weight: 500; font-display: swap; src: url(dm-sans-latin-500-normal.woff2) format('woff2'); }
-@font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url(dm-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Manrope'; font-weight: 400; font-display: swap; src: url(manrope-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Manrope'; font-weight: 600; font-display: swap; src: url(manrope-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Manrope'; font-weight: 800; font-display: swap; src: url(manrope-latin-800-normal.woff2) format('woff2'); }
 :root {
   --bg: #faf9f7; --card: #ffffff; --fg: #22252a; --muted: #6b6f76; --line: #ebe8e2;
   --price: #c2410c; --go: #00843d;
@@ -27,9 +27,9 @@
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 button, input, select { font: inherit; color: inherit; }
-.wrap { max-width: 980px; margin-inline: auto; padding: calc(1.25rem + env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) calc(2.5rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+.wrap { max-width: 1000px; width: 100%; margin-inline: auto; padding: 1.25rem max(1rem, env(safe-area-inset-right)) calc(2.5rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
 [data-m="Billa"] { --c: #ffd200; --ring: #d9b400; --on: #1d1d1b; }
 [data-m="Spar"] { --c: #00843d; --ring: #00843d; --on: #fff; }
 [data-m="Hofer"] { --c: #f08c00; --ring: #f08c00; --on: #fff; }
@@ -55,7 +55,7 @@ header p { margin: .3rem 0 0; color: var(--muted); font-size: .9rem; }
 .tile[aria-pressed="true"]::after { content: '✓'; position: absolute; top: .75rem; right: .8rem; width: 21px; height: 21px; border-radius: 50%; display: grid; place-items: center; background: var(--ring); color: var(--on); font-size: .72rem; font-weight: 700; }
 @keyframes fade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
 
-.bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: .7rem 0; margin-top: -.6rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; border-bottom: 1px solid var(--line); }
+.bar { position: sticky; top: var(--top); z-index: 5; background: var(--bg); padding: .7rem 0; margin-top: -.6rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; border-bottom: 1px solid var(--line); }
 .chip { cursor: pointer; font-size: .88rem; padding: .42rem .85rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); white-space: nowrap; }
 .chip b { color: var(--price); margin-right: .15rem; font-variant-numeric: tabular-nums; }
 .chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
@@ -111,15 +111,111 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
   .bar input { order: -1; flex-basis: 100%; }
 }
 .types { display: contents; }
+
+:root { --brand: #d9481a; --top: 60px; --sb: 236px; }
+.app { display: grid; grid-template-columns: var(--sb) minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns .2s ease; }
+.app.is-collapsed { --sb: 72px; }
+.topbar { position: sticky; top: 0; z-index: 20; height: calc(var(--top) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) max(1rem, env(safe-area-inset-right)) 0 .75rem; display: flex; align-items: center; gap: .75rem; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+.burger { width: 40px; height: 40px; border-radius: 12px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--fg); }
+.burger:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.burger svg, .nav svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; }
+.brand img { width: 30px; height: 30px; border-radius: 8px; }
+.topbar .stand { margin-left: auto; font-size: .8rem; color: var(--muted); white-space: nowrap; }
+
+.side { position: sticky; top: calc(var(--top) + env(safe-area-inset-top)); height: calc(100vh - var(--top) - env(safe-area-inset-top)); overflow-y: auto; overflow-x: hidden; border-right: 1px solid var(--line); background: var(--card); padding: .9rem .6rem 1.2rem; display: flex; flex-direction: column; gap: .15rem; scrollbar-width: thin; }
+.nav-h { font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: .9rem .75rem .35rem; white-space: nowrap; }
+.nav { display: flex; align-items: center; gap: .8rem; width: 100%; padding: .6rem .75rem; border-radius: 12px; border: 0; background: transparent; color: var(--fg); text-decoration: none; cursor: pointer; font-size: .92rem; font-weight: 500; text-align: left; white-space: nowrap; }
+.nav:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.nav[aria-current="true"] { background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand); }
+.nav .dot { width: 22px; height: 22px; display: grid; place-items: center; flex: none; }
+.nav .dot::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1px var(--ring); }
+.nav .cnt { margin-left: auto; font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nav .ext { margin-left: auto; color: var(--muted); font-size: .8rem; }
+.side .sep { height: 1px; background: var(--line); margin: .6rem .5rem; }
+.app.is-collapsed .side .lbl, .app.is-collapsed .side .cnt, .app.is-collapsed .side .ext, .app.is-collapsed .nav-h { display: none; }
+.app.is-collapsed .nav { justify-content: center; padding-inline: 0; }
+.app.is-collapsed .nav-h + * { margin-top: .4rem; }
+.scrim { display: none; }
+
+.hero { grid-column: 1 / -1; position: relative; overflow: hidden; color: #fff; background: var(--brand); padding: 2.4rem max(1.25rem, env(safe-area-inset-right)) 2.6rem max(1.25rem, env(safe-area-inset-left)); }
+.hero-in { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto; padding-left: clamp(0rem, 14vw, 13rem); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; align-items: center; }
+.hero-logo { position: absolute; z-index: 0; left: max(-2rem, calc(50% - 640px)); top: 50%; width: clamp(200px, 24vw, 300px); height: auto; transform: translateY(-50%) rotate(-14deg); opacity: .16; pointer-events: none; }
+.hero h1 { margin: 0; font-size: clamp(1.6rem, 4.5vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.08; }
+.hero p { margin: .45rem 0 0; font-size: .95rem; color: rgba(255,255,255,.9); }
+.nav svg { flex: none; }
+.nav .lbl { overflow: hidden; text-overflow: ellipsis; }
+.hero .facts { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+.hero .facts span { background: rgba(255,255,255,.16); border-radius: 999px; padding: .3rem .75rem; font-size: .85rem; }
+.hero .facts b { font-weight: 700; }
+.deal { position: relative; z-index: 1; width: 15.5rem; background: var(--card); color: var(--fg); border-radius: 18px; padding: 1rem 1.05rem; text-decoration: none; display: grid; gap: .35rem; box-shadow: 0 10px 30px -12px rgba(0,0,0,.35); transform: rotate(1.5deg); transition: transform .15s ease; }
+.deal:hover { transform: rotate(0deg) translateY(-2px); }
+.deal .k { font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); }
+.deal .row { display: flex; gap: .7rem; align-items: center; }
+.deal .nm { font-weight: 500; font-size: .92rem; line-height: 1.25; }
+.deal .mt { font-size: .76rem; color: var(--muted); }
+.deal .px { display: flex; align-items: baseline; gap: .5rem; }
+.deal .px .now { font-weight: 700; font-size: 1.3rem; color: var(--price); }
+.deal .px .old { font-size: .8rem; color: var(--muted); text-decoration: line-through; }
+.deal .px .pct { margin-left: auto; background: var(--price); color: #fff; font-weight: 700; font-size: .75rem; padding: .15rem .5rem; border-radius: 999px; }
+
+@media (max-width: 860px) {
+  .app, .app.is-collapsed { grid-template-columns: minmax(0, 1fr); }
+  .side { position: fixed; z-index: 40; left: 0; top: 0; height: 100%; width: min(82vw, 290px); padding-top: calc(1rem + env(safe-area-inset-top)); transform: translateX(-102%); transition: transform .22s ease; box-shadow: 0 0 40px rgba(0,0,0,.2); }
+  .app.is-open .side { transform: none; }
+  .app.is-collapsed .side .lbl, .app.is-collapsed .side .cnt, .app.is-collapsed .side .ext, .app.is-collapsed .nav-h { display: revert; }
+  .app.is-collapsed .nav { justify-content: flex-start; padding-inline: .75rem; }
+  .scrim { position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,.35); opacity: 0; pointer-events: none; transition: opacity .2s; display: block; }
+  .app.is-open .scrim { opacity: 1; pointer-events: auto; }
+  .topbar .stand { display: none; }
+  .hero { padding: 1.6rem 1.1rem 1.8rem; }
+  .hero-in { grid-template-columns: minmax(0, 1fr); padding-left: 0; gap: 1.2rem; }
+  .hero-logo { left: auto; right: -3.5rem; top: 2.2rem; width: 210px; transform: rotate(14deg); opacity: .13; }
+  .deal { width: auto; transform: none; }
+}
+.hero h1, section h2, .brand, .tile .n { font-weight: 800; letter-spacing: -0.025em; }
+b, .pr .now, .deal .px .now, .chip b, .tile .hd, .tile .badge { font-weight: 800; }
+.name, .nav, .meta .mk, .meta .cond, .tip .a, .links a, .deal .nm { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
-<main class="wrap">
-  <header>
-    <h1>Diese Woche im Angebot</h1>
-    <p id="stand">Billa, Spar, Hofer und Lidl · Region Wien</p>
+<div class="app" id="app">
+<div class="topbar" style="grid-column: 1 / -1">
+  <button class="burger" id="burger" aria-label="Menü" aria-expanded="true" aria-controls="side"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="#top"><img src="icon-192.png" alt="">Aktionen</a>
+  <span class="stand" id="stand2"></span>
+</div>
+  <header class="hero" id="top">
+    <svg class="hero-logo" viewBox="-160 -170 320 360" aria-hidden="true"><g transform="rotate(0)"><path d="M-118 -150 H70 L150 -70 V150 a22 22 0 0 1 -22 22 H-118 a22 22 0 0 1 -22 -22 V-128 a22 22 0 0 1 22 -22 Z" fill="#fff"/><circle cx="96" cy="-104" r="19" fill="#d9481a"/><path d="M-62 92 L72 -60" stroke="#d9481a" stroke-width="26" stroke-linecap="round"/><circle cx="-48" cy="-40" r="30" fill="none" stroke="#d9481a" stroke-width="24"/><circle cx="60" cy="74" r="30" fill="none" stroke="#d9481a" stroke-width="24"/></g></svg>
+    <div class="hero-in">
+    <div style="position:relative;z-index:1">
+      <h1>Diese Woche im Angebot</h1>
+      <p id="stand">Billa, Spar, Hofer und Lidl · Region Wien</p>
+      <div class="facts" id="facts"></div>
+    </div>
+    <a class="deal" id="deal" hidden></a>
+    </div>
   </header>
+<aside class="side" id="side" aria-label="Menü">
+  <div class="nav-h">Übersicht</div>
+  <button class="nav" data-go="top" aria-current="true" title="Start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg><span class="lbl">Start</span></button>
+  <button class="nav" data-go="mehr" title="Mehr kaufen, mehr sparen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1.5S10 9 12 9c2 0 6 1 6-1.5S14 5 12 9"/></svg><span class="lbl">Mengenaktionen</span></button>
+  <button class="nav" data-go="alle" title="Alle Angebote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span class="lbl">Alle Angebote</span></button>
+  <button class="nav" data-go="warten" title="Kaufen oder warten?"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="lbl">Kaufen oder warten?</span></button>
+  <div class="nav-h">Märkte</div>
+  <button class="nav" data-markt="Billa" data-m="Billa" title="Billa"><span class="dot"></span><span class="lbl">Billa</span><span class="cnt" data-cnt="Billa"></span></button>
+  <button class="nav" data-markt="Spar" data-m="Spar" title="Spar"><span class="dot"></span><span class="lbl">Spar</span><span class="cnt" data-cnt="Spar"></span></button>
+  <button class="nav" data-markt="Hofer" data-m="Hofer" title="Hofer"><span class="dot"></span><span class="lbl">Hofer</span><span class="cnt" data-cnt="Hofer"></span></button>
+  <button class="nav" data-markt="Lidl" data-m="Lidl" title="Lidl"><span class="dot"></span><span class="lbl">Lidl</span><span class="cnt" data-cnt="Lidl"></span></button>
+  <div class="nav-h">Flugblätter</div>
+  <a class="nav" href="https://www.billa.at/unsere-aktionen/flugblatt" target="_blank" rel="noopener" title="Billa-Flugblatt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg><span class="lbl">Billa</span><span class="ext">↗</span></a>
+  <a class="nav" href="https://www.spar.at/aktionen" target="_blank" rel="noopener" title="Spar-Flugblatt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg><span class="lbl">Spar</span><span class="ext">↗</span></a>
+  <a class="nav" href="https://www.hofer.at/flugblatt" target="_blank" rel="noopener" title="Hofer-Flugblatt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg><span class="lbl">Hofer</span><span class="ext">↗</span></a>
+  <a class="nav" href="https://www.lidl.at/c/flugblatt/s10012330" target="_blank" rel="noopener" title="Lidl-Flugblatt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg><span class="lbl">Lidl</span><span class="ext">↗</span></a>
+</aside>
+<div class="scrim" id="scrim"></div>
+<main class="wrap">
 
   <div class="tiles" role="group" aria-label="Markt wählen" id="tiles"></div>
 
@@ -166,6 +262,7 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
     <p>Privates Projekt, keine Verbindung zu den Händlern. Angaben ohne Gewähr – Bedingungen wie Mindestmenge oder App-Pflicht vor dem Einkauf im Flugblatt prüfen.</p>
   </footer>
 </main>
+</div>
 
 <script>
 (() => {
@@ -285,9 +382,30 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
     return o;
   }
 
+  function drawHero(valid) {
+    const c = counts(valid);
+    const f = $('facts'); f.replaceChildren();
+    const fact = (n, txt) => { const s = el('span'); s.append(el('b', null, String(n)), document.createTextNode(' ' + txt)); f.append(s); };
+    fact(c.gesamt, 'Angebote'); fact(c.gratis, '× gratis'); fact(c.mengen, '× Mengenrabatt');
+    for (const m of MARKETS.slice(1)) { const x = document.querySelector('[data-cnt="' + m + '"]'); if (x) x.textContent = String(valid.filter((r) => r.markt === m).length); }
+    const top = valid.filter((r) => r.preis != null && r.rabatt != null).sort((a, b) => b.rabatt - a.rabatt || a.preis - b.preis)[0];
+    const d = $('deal');
+    if (!top) { d.hidden = true; return; }
+    d.hidden = false; d.href = top.quelle; d.target = '_blank'; d.rel = 'noopener'; d.dataset.m = top.markt; d.replaceChildren();
+    const row = el('div', 'row'); const ic = el('span', 'ico', emoji(top)); ic.setAttribute('aria-hidden', 'true');
+    const tx = el('div'); tx.append(el('div', 'nm', top.produkt), el('div', 'mt', top.markt + (top.bedingung ? ' · ' + top.bedingung : '') + (top.bis ? ' · bis ' + fmtD(top.bis) : '')));
+    row.append(ic, tx);
+    const px = el('div', 'px'); px.append(el('span', 'now', fmtE(top.preis)));
+    if (top.regulaer != null) px.append(el('span', 'old', fmtE(top.regulaer)));
+    px.append(el('span', 'pct', '−' + top.rabatt + ' %'));
+    d.append(el('span', 'k', 'Top-Angebot der Woche'), row, px);
+  }
+
   function drawTiles() {
     const box = $('tiles'); box.replaceChildren();
     const valid = ALL.filter((r) => !r.bis || r.bis >= today);
+    drawHero(valid);
+    document.querySelectorAll('.nav[data-markt]').forEach((n) => n.setAttribute('aria-current', String(state.markt === n.dataset.markt)));
     for (const m of MARKETS) {
       const rows = m === 'Alle' ? valid : valid.filter((r) => r.markt === m);
       const c = counts(rows);
@@ -352,13 +470,37 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
     } catch (e) { $('warten').hidden = true; }
   }
 
+  const app = $('app'), mq = window.matchMedia('(max-width: 860px)');
+  const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
+  if (store('sb') === 'zu') app.classList.add('is-collapsed');
+  const syncBurger = () => $('burger').setAttribute('aria-expanded', String(mq.matches ? app.classList.contains('is-open') : !app.classList.contains('is-collapsed')));
+  syncBurger();
+  $('burger').addEventListener('click', () => {
+    if (mq.matches) app.classList.toggle('is-open');
+    else { app.classList.toggle('is-collapsed'); store('sb', app.classList.contains('is-collapsed') ? 'zu' : 'auf'); }
+    syncBurger();
+  });
+  const closeMenu = () => { app.classList.remove('is-open'); syncBurger(); };
+  $('scrim').addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  const go = (id) => { const t = $(id); if (t) window.scrollTo({ top: id === 'top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); };
+  document.querySelectorAll('.nav[data-go]').forEach((n) => n.addEventListener('click', () => {
+    document.querySelectorAll('.nav[data-go]').forEach((x) => x.setAttribute('aria-current', String(x === n)));
+    closeMenu(); go(n.dataset.go);
+  }));
+  document.querySelectorAll('.nav[data-markt]').forEach((n) => n.addEventListener('click', () => {
+    state.markt = state.markt === n.dataset.markt ? 'Alle' : n.dataset.markt; state.n1 = 8; state.n2 = PAGE;
+    drawTiles(); draw(); closeMenu(); go('alle');
+  }));
+  document.querySelectorAll('.side a.nav').forEach((a) => a.addEventListener('click', closeMenu));
+
   $('q').addEventListener('input', (e) => { state.q = e.target.value.trim().toLowerCase(); state.n1 = 8; state.n2 = PAGE; draw(); });
   $('kat').addEventListener('change', (e) => { state.kat = e.target.value; state.n2 = PAGE; draw(); });
   $('sort').addEventListener('change', (e) => { state.sort = e.target.value; draw(); });
 
   fetch('aktionen.json', { cache: 'no-cache' }).then((r) => r.json()).then((d) => {
     ALL = d.rows || d; STAND = d.stand || '';
-    if (STAND) $('stand').textContent = 'Billa, Spar, Hofer und Lidl · Region Wien · Stand ' + fmtD(STAND);
+    if (STAND) { $('stand').textContent = 'Billa, Spar, Hofer und Lidl · Region Wien · Stand ' + fmtD(STAND); $('stand2').textContent = 'Stand ' + fmtD(STAND); }
     const ks = [...new Set(ALL.map((r) => r.kategorie))].sort((a, b) => a.localeCompare(b, 'de'));
     $('kat').append(...ks.map((k) => new Option(k)));
     drawTiles(); draw(); warten();
