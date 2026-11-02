@@ -11,12 +11,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Aktionen">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-@font-face { font-family: 'DM Sans'; font-weight: 400; font-display: swap; src: url(fonts/dm-sans-latin-400-normal.woff2) format('woff2'); }
-@font-face { font-family: 'DM Sans'; font-weight: 500; font-display: swap; src: url(fonts/dm-sans-latin-500-normal.woff2) format('woff2'); }
-@font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url(fonts/dm-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; font-display: swap; src: url(dm-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; font-display: swap; src: url(dm-sans-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url(dm-sans-latin-700-normal.woff2) format('woff2'); }
 :root {
   --bg: #faf9f7; --card: #ffffff; --fg: #22252a; --muted: #6b6f76; --line: #ebe8e2;
   --price: #c2410c; --go: #00843d;
@@ -329,7 +329,7 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
 
   async function warten() {
     try {
-      const [liste, rhy] = await Promise.all(['data/meine-liste.json', 'data/aktionsrhythmus.json'].map((u) => fetch(u).then((r) => r.json())));
+      const [liste, rhy] = await Promise.all(['meine-liste.json', 'aktionsrhythmus.json'].map((u) => fetch(u).then((r) => r.json())));
       const L = liste.rows || liste, R = rhy.rows || rhy;
       const valid = ALL.filter((r) => !r.bis || r.bis >= today);
       const out = R.map((r) => {
@@ -356,7 +356,7 @@ footer p { margin: 0; font-size: .78rem; color: var(--muted); }
   $('kat').addEventListener('change', (e) => { state.kat = e.target.value; state.n2 = PAGE; draw(); });
   $('sort').addEventListener('change', (e) => { state.sort = e.target.value; draw(); });
 
-  fetch('data/aktionen.json', { cache: 'no-cache' }).then((r) => r.json()).then((d) => {
+  fetch('aktionen.json', { cache: 'no-cache' }).then((r) => r.json()).then((d) => {
     ALL = d.rows || d; STAND = d.stand || '';
     if (STAND) $('stand').textContent = 'Billa, Spar, Hofer und Lidl · Region Wien · Stand ' + fmtD(STAND);
     const ks = [...new Set(ALL.map((r) => r.kategorie))].sort((a, b) => a.localeCompare(b, 'de'));
